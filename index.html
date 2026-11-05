@@ -1,0 +1,1400 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nandhulal P S — Video Editor &amp; Colorist | Commercials, Films &amp; Post-Production</title>
+
+  <!-- SEO & Social Meta Tags -->
+  <meta name="description"
+    content="Portfolio of Nandhulal P S, a Video Editor and Colorist specializing in high-retention commercials, cinematic documentaries, music videos, and precision post-production finishing.">
+  <meta name="keywords"
+    content="Nandhulal P S, Video Editor, Colorist, DaVinci Resolve, Premiere Pro, After Effects, Commercial Video Editor, Music Video Editing, Post-Production">
+  <meta name="author" content="Nandhulal P S">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Nandhulal P S — Video Editor &amp; Post-Producer">
+  <meta property="og:description"
+    content="Crafting cinematic narratives, high-retention commercials, and seamless post-production for brands and directors worldwide.">
+  <meta property="og:image" content="assets/nandhu_headphone.png">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml"
+    href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%23000000'/><circle cx='50' cy='50' r='20' fill='%23ef4444'/></svg>">
+
+  <!-- Typography: Inter Font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  <!-- Accessible Skip Link -->
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
+  <!-- ==========================================================================
+       HEADER / NAVBAR
+       ========================================================================== -->
+  <!-- ==========================================================================
+       FLOATING COMPACT NAVBAR (TOP RIGHT PILL)
+       ========================================================================== -->
+  <header class="floating-nav-wrapper" id="navbar" role="banner">
+    <div class="floating-nav-pill">
+      <nav aria-label="Main Navigation">
+        <ul class="floating-nav-links">
+          <li><a href="#hero" class="floating-nav-link">Home</a></li>
+          <li><a href="#works" class="floating-nav-link">Works</a></li>
+          <li><a href="#lens-work" class="floating-nav-link">Visuals</a></li>
+          <li><a href="#about" class="floating-nav-link">About</a></li>
+          <li><a href="#writing" class="floating-nav-link">Blog</a></li>
+        </ul>
+      </nav>
+
+      <button id="sound-toggle-btn" class="sound-toggle-btn" type="button" aria-label="Toggle ambient music"
+        title="Ambient Sound: Serene Edit">
+        <span class="sound-eq-bars" aria-hidden="true">
+          <span class="eq-bar bar-1"></span>
+          <span class="eq-bar bar-2"></span>
+          <span class="eq-bar bar-3"></span>
+          <span class="eq-bar bar-4"></span>
+        </span>
+        <span class="sound-status-text">Sound</span>
+      </button>
+
+      <a href="#contact" class="btn-get-in-touch" id="nav-cta-btn">
+        <span>Get in touch</span>
+      </a>
+
+      <button id="mobile-menu-btn" class="mobile-menu-btn" type="button" aria-label="Open navigation menu"
+        aria-expanded="false">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+          stroke-linecap="round" stroke-linejoin="round">
+          <line x1="3" y1="12" x2="21" y2="12"></line>
+          <line x1="3" y1="6" x2="21" y2="6"></line>
+          <line x1="3" y1="18" x2="21" y2="18"></line>
+        </svg>
+      </button>
+    </div>
+  </header>
+
+  <!-- Mobile Drawer -->
+  <div id="mobile-drawer" class="mobile-drawer" aria-label="Mobile Navigation">
+    <a href="#hero" class="mobile-nav-link">Home</a>
+    <a href="#works" class="mobile-nav-link">Selected works</a>
+    <a href="#lens-work" class="mobile-nav-link">Photography &amp; Film</a>
+    <a href="#about" class="mobile-nav-link">About</a>
+    <a href="#services" class="mobile-nav-link">Services</a>
+    <a href="#process" class="mobile-nav-link">Process</a>
+    <a href="#writing" class="mobile-nav-link">Thoughts</a>
+    <a href="#contact" class="mobile-nav-link">Contact</a>
+    <button id="mobile-sound-toggle-btn" class="mobile-sound-toggle-btn" type="button">
+      <span class="sound-eq-bars" aria-hidden="true">
+        <span class="eq-bar bar-1"></span>
+        <span class="eq-bar bar-2"></span>
+        <span class="eq-bar bar-3"></span>
+        <span class="eq-bar bar-4"></span>
+      </span>
+      <span id="mobile-sound-text">Ambient Music: Serene Edit</span>
+    </button>
+  </div>
+
+  <!-- MAIN CONTENT CONTAINER -->
+  <main id="main-content">
+
+    <!-- ==========================================================================
+         HERO SECTION
+         ========================================================================== -->
+    <section class="hero-section" id="hero" aria-labelledby="hero-title">
+      <div class="container">
+        <div class="hero-grid">
+
+          <!-- Left Column: Copy & CTAs -->
+          <div class="hero-left">
+            <h1 id="hero-title" class="hero-title">
+              <span class="hero-greeting">Hello, I am</span>
+              <span class="name-highlight">Nandhulal P S,</span>
+              <span class="rotating-role-container">
+                <span id="rotating-role-text" class="rotating-role-text">a Video Editor.</span><span
+                  class="typing-caret" aria-hidden="true"></span>
+              </span>
+            </h1>
+
+            <p class="hero-subtitle">
+              Crafting cinematic narratives, high-retention commercials, documentary storytelling, and precision color
+              finishing for global directors and brands.
+            </p>
+
+            <div class="hero-cta">
+              <button type="button" class="btn btn-reel-play" onclick="openVideoPlayer('showreel')">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                  <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                </svg>
+                <span>Watch 2024 Reel</span>
+              </button>
+
+              <a href="#contact" class="btn btn-black">
+                <span>Hire me</span>
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                  stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <line x1="5" y1="12" x2="19" y2="12"></line>
+                  <polyline points="12 5 19 12 12 19"></polyline>
+                </svg>
+              </a>
+            </div>
+
+            <!-- Video Post-Production Software Ticker -->
+            <div class="hero-partners" aria-label="Editing Software Suite">
+              <div class="hero-partner-item" title="Adobe Photoshop">
+                <img src="assets/ps.jpg" alt="Adobe Photoshop logo" class="software-logo-img" width="20" height="20">
+                <span>Photoshop</span>
+              </div>
+              <div class="hero-partner-item" title="CapCut">
+                <img src="assets/cc.jpg" alt="CapCut logo" class="software-logo-img" width="20" height="20">
+                <span>CapCut</span>
+              </div>
+              <div class="hero-partner-item" title="Adobe Premiere Pro">
+                <img src="assets/pr.jpg" alt="Adobe Premiere Pro logo" class="software-logo-img" width="20" height="20">
+                <span>Premiere Pro</span>
+              </div>
+              <div class="hero-partner-item" title="Adobe Lightroom">
+                <img src="assets/lr.jpg" alt="Adobe Lightroom logo" class="software-logo-img" width="20" height="20">
+                <span>Lightroom</span>
+              </div>
+              <div class="hero-partner-item" title="DaVinci Resolve Studio">
+                <img src="assets/dv.jpg" alt="DaVinci Resolve Studio logo" class="software-logo-img" width="20"
+                  height="20">
+                <span>DaVinci Resolve</span>
+              </div>
+              <div class="hero-partner-item" title="Canva">
+                <img src="assets/cv.jpg" alt="Canva logo" class="software-logo-img" width="20" height="20">
+                <span>Canva</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right Column: Prominent Hero Portrait -->
+          <div class="hero-right">
+            <div class="hero-media-wrapper">
+
+              <!-- Hero Portrait Card (Large) -->
+              <div class="hero-portrait-card" onclick="openVideoPlayer('showreel')" tabindex="0" role="button"
+                aria-label="Play 2024 Showreel video">
+                <img src="assets/nandhu_headphone.png?v=2" alt="Portrait of Nandhulal P S with Beats headphones"
+                  width="972" height="1024">
+              </div>
+
+              <!-- Floating Client Trust Badge -->
+              <div class="hero-client-trust-badge">
+                <div class="client-avatar-group" aria-label="5 client reviews">
+                  <img src="assets/testimonial.jpg" class="client-avatar-mini" alt="Client 1">
+                  <img src="assets/work1.jpg" class="client-avatar-mini" alt="Client 2">
+                  <img src="assets/work2.jpg" class="client-avatar-mini" alt="Client 3">
+                  <img src="assets/work3.jpg" class="client-avatar-mini" alt="Client 4">
+                  <img src="assets/proc1.jpg" class="client-avatar-mini" alt="Client 5">
+                </div>
+                <div class="client-stars" aria-label="5 stars rating">★★★★★</div>
+                <span class="client-trust-text">Trusted by 50+ clients</span>
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ==========================================================================
+         SELECTED WORKS (VIDEO PROJECTS)
+         ========================================================================== -->
+    <section class="selected-works-section" id="works" aria-labelledby="works-heading">
+      <div class="container">
+
+        <div class="works-header">
+          <div>
+            <h2 id="works-heading" class="section-title">Selected works</h2>
+            <p class="section-desc" style="margin-top:6px;">
+              A curated reel of commercial spots, narrative music films, and color finishing projects.
+            </p>
+          </div>
+
+          <!-- Discipline Filter with 9:16 Reels category -->
+          <div class="works-filter-bar" role="toolbar" aria-label="Filter works by genre">
+            <button class="filter-btn active" data-genre="all" type="button">All Projects</button>
+            <button class="filter-btn" data-genre="reels" type="button">9:16 Reels &amp; Shorts</button>
+            <button class="filter-btn" data-genre="commercial" type="button">Commercials</button>
+            <button class="filter-btn" data-genre="music" type="button">Music Videos</button>
+            <button class="filter-btn" data-genre="color" type="button">Color Grading</button>
+          </div>
+        </div>
+
+        <!-- ====================================================================
+             SIGNATURE 3D POP-OUT REEL SHOWCASE (BEHANCE FEATURE)
+             Three 9:16 reels fan out from a single card on hover / click
+             ==================================================================== -->
+        <div class="motion-reel-banner">
+          <div class="motion-reel-banner-left">
+            <span class="motion-reel-tag">MOTION &amp; SHORT-FORM POST-PRODUCTION</span>
+            <h3 class="motion-reel-title">Motion<br>Graphic.</h3>
+            <p class="motion-reel-desc">
+              Created engaging motion visuals for social media and commercial use combining typography, shapes, and
+              animation to deliver clear messages that match the brand's tone and rhythm.
+            </p>
+            <div class="motion-reel-toggle-row">
+              <button type="button" class="btn btn-black btn-sm" id="toggle-reels-btn"
+                aria-label="Toggle pop out reels">
+                <span id="reels-btn-label">Pop Out 3 Reels</span>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                  <path d="M15 3h6v6"></path>
+                  <path d="M9 21H3v-6"></path>
+                  <path d="M21 3l-7 7"></path>
+                  <path d="M3 21l7-7"></path>
+                </svg>
+              </button>
+              <span class="reels-hover-hint">Hover or tap cards to fan out</span>
+            </div>
+          </div>
+
+          <div class="motion-reel-banner-right">
+            <!-- 3D Pop-Out Reel Deck -->
+            <div class="reel-stack-deck" id="reel-stack-deck" tabindex="0" role="region"
+              aria-label="Interactive 3-Reel Fan-Out Showcase">
+
+              <!-- Left Pop-Out Reel -->
+              <div class="reel-deck-card reel-deck-left" onclick="openVideoPlayer('reel_travel')" role="button"
+                tabindex="0" aria-label="Play Traveling Europe Reel">
+                <div class="reel-card-inner">
+                  <video class="reel-video reel-video-left" id="reel-left-video" src="assets/2026.mp4"
+                    poster="assets/reel_travel.jpg" muted playsinline loop preload="auto"></video>
+                  <span class="reel-badge-pill">EUROPE · 9:16</span>
+                  <div class="reel-play-icon">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                      <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                    </svg>
+                  </div>
+                  <div class="reel-card-title-overlay">Traveling Europe</div>
+                </div>
+              </div>
+
+              <!-- Right Pop-Out Reel -->
+              <div class="reel-deck-card reel-deck-right" onclick="openVideoPlayer('reel_retro')" role="button"
+                tabindex="0" aria-label="Play Retro Tech Motion Reel">
+                <div class="reel-card-inner">
+                  <video class="reel-video reel-video-right" id="reel-right-video" src="assets/simple.mp4"
+                    poster="assets/reel_retro.jpg" muted playsinline loop preload="auto"></video>
+                  <span class="reel-badge-pill">TECH · 9:16</span>
+                  <div class="reel-play-icon">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                      <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                    </svg>
+                  </div>
+                  <div class="reel-card-title-overlay">Retro Synth Tech</div>
+                </div>
+              </div>
+
+              <!-- Center Main Reel (Anchor Card that pops forward) -->
+              <div class="reel-deck-card reel-deck-center" onclick="openVideoPlayer('reel_louvre')" role="button"
+                tabindex="0" aria-label="Play The Louvre Museum Reel">
+                <div class="reel-card-inner">
+                  <video class="reel-video reel-video-center" id="reel-main-video" src="assets/working.mp4"
+                    poster="assets/reel_louvre.jpg" muted playsinline preload="auto"></video>
+                  <span class="reel-badge-pill">THE LOUVRE · 9:16</span>
+                  <div class="reel-play-icon">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+                      <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                    </svg>
+                  </div>
+                  <div class="reel-card-title-overlay">The Louvre Paris</div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+        <!-- ====================================================================
+             VERTICAL 9:16 REELS & COMMERCIAL GALLERY (REELS / SHORTS RATIO)
+             ==================================================================== -->
+        <div class="works-reels-grid">
+
+          <!-- Reel 1: FinTech Hook -->
+          <div class="work-card-reel" data-genre="reels" tabindex="0" role="button" aria-label="Watch E-Money Reel"
+            onclick="openVideoPlayer('reel_1')">
+            <div class="work-reel-media">
+              <video class="grid-reel-video" src="assets/2026.mp4" poster="assets/reel_1.jpg" muted playsinline loop
+                preload="metadata"></video>
+              <span class="video-duration-badge">00:15 · 9:16 REEL</span>
+              <div class="card-play-hover" aria-hidden="true">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                  <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                </svg>
+              </div>
+            </div>
+            <div class="work-reel-info">
+              <span class="work-reel-title">E-Money Global Card</span>
+              <span class="work-reel-tag">FinTech Ad · Viral Hook</span>
+            </div>
+          </div>
+
+          <!-- Reel 2: Retro 35mm Photography -->
+          <div class="work-card-reel" data-genre="reels" tabindex="0" role="button"
+            aria-label="Watch Vintage Camera Reel" onclick="openVideoPlayer('reel_2')">
+            <div class="work-reel-media">
+              <video class="grid-reel-video" src="assets/working.mp4" poster="assets/reel_2.jpg" muted playsinline loop
+                preload="metadata"></video>
+              <span class="video-duration-badge">00:22 · 9:16 REEL</span>
+              <div class="card-play-hover" aria-hidden="true">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                  <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                </svg>
+              </div>
+            </div>
+            <div class="work-reel-info">
+              <span class="work-reel-title">Classic Lens &amp; Film</span>
+              <span class="work-reel-tag">Editorial Motion · Sound Sync</span>
+            </div>
+          </div>
+
+          <!-- Reel 3: Renaissance Art (Mona Lisa) -->
+          <div class="work-card-reel" data-genre="reels" tabindex="0" role="button"
+            aria-label="Watch Renaissance Art Motion Reel" onclick="openVideoPlayer('reel_3')">
+            <div class="work-reel-media">
+              <video class="grid-reel-video" src="assets/simple.mp4" poster="assets/reel_3.jpg" muted playsinline loop
+                preload="metadata"></video>
+              <span class="video-duration-badge">00:30 · 9:16 REEL</span>
+              <div class="card-play-hover" aria-hidden="true">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                  <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                </svg>
+              </div>
+            </div>
+            <div class="work-reel-info">
+              <span class="work-reel-title">Renaissance Masterpieces</span>
+              <span class="work-reel-tag">Cultural Motion · 2.5D Parallax</span>
+            </div>
+          </div>
+
+          <!-- Reel 4: When Traveling -->
+          <div class="work-card-reel" data-genre="reels" tabindex="0" role="button"
+            aria-label="Watch When Traveling Reel" onclick="openVideoPlayer('reel_4')">
+            <div class="work-reel-media">
+              <video class="grid-reel-video" src="assets/2026.mp4" poster="assets/reel_4.jpg" muted playsinline loop
+                preload="metadata"></video>
+              <span class="video-duration-badge">00:18 · 9:16 REEL</span>
+              <div class="card-play-hover" aria-hidden="true">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                  <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                </svg>
+              </div>
+            </div>
+            <div class="work-reel-info">
+              <span class="work-reel-title">When Traveling</span>
+              <span class="work-reel-tag">App Promo · 3D Isometric Motion</span>
+            </div>
+          </div>
+
+          <!-- Reel 5: Telecom SIM Card -->
+          <div class="work-card-reel" data-genre="reels" tabindex="0" role="button"
+            aria-label="Watch Telecom Motion Spot" onclick="openVideoPlayer('reel_5')">
+            <div class="work-reel-media">
+              <video class="grid-reel-video" src="assets/working.mp4" poster="assets/reel_5.jpg" muted playsinline loop
+                preload="metadata"></video>
+              <span class="video-duration-badge">00:15 · 9:16 REEL</span>
+              <div class="card-play-hover" aria-hidden="true">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                  <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                </svg>
+              </div>
+            </div>
+            <div class="work-reel-info">
+              <span class="work-reel-title">Global Roaming SIM</span>
+              <span class="work-reel-tag">Commercial Spot · Vector Animation</span>
+            </div>
+          </div>
+
+          <!-- Porsche Commercial Reel in 9:16 format -->
+          <div class="work-card-reel" data-genre="commercial" tabindex="0" role="button"
+            aria-label="Watch Porsche Commercial Cut" onclick="openVideoPlayer('work1')">
+            <div class="work-reel-media">
+              <video class="grid-reel-video" src="assets/simple.mp4" poster="assets/work1.jpg" muted playsinline loop
+                preload="metadata"></video>
+              <span class="video-duration-badge">01:30 · 9:16 CUT</span>
+              <div class="card-play-hover" aria-hidden="true">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                  <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                </svg>
+              </div>
+            </div>
+            <div class="work-reel-info">
+              <span class="work-reel-title">Porsche Nocturne</span>
+              <span class="work-reel-tag">Automotive Commercial · Speed Ramps</span>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ==========================================================================
+         PHOTOGRAPHY & VIDEOGRAPHY (BEHIND THE LENS)
+         ========================================================================== -->
+    <section class="lens-section" id="lens-work" aria-labelledby="lens-heading">
+      <div class="container">
+
+        <!-- Section Header with Category Tabs -->
+        <div class="lens-header-row">
+          <div>
+            <div class="lens-kicker-badge">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path>
+                <circle cx="12" cy="13" r="4"></circle>
+              </svg>
+              <span>BEHIND THE LENS</span>
+            </div>
+            <h2 id="lens-heading" class="section-title">
+              Photography &amp;<br>
+              videography.
+            </h2>
+            <p class="section-desc">
+              From full-frame cinema rigs to 35mm stills — capturing organic light, honest human portraits, and rhythmic
+              motion in the field.
+            </p>
+          </div>
+
+          <!-- Filter Controls -->
+          <div class="lens-filter-bar" role="tablist" aria-label="Media Filter">
+            <button type="button" class="lens-filter-btn active" data-lens-filter="all">All Works (6)</button>
+            <button type="button" class="lens-filter-btn" data-lens-filter="photo">Photography</button>
+            <button type="button" class="lens-filter-btn" data-lens-filter="video">Videography</button>
+          </div>
+        </div>
+
+        <!-- Editorial Gallery Grid -->
+        <div class="lens-gallery-grid">
+
+          <!-- Item 1: Videography (Echoes of the High Desert) -->
+          <article class="lens-card lens-card-featured" data-lens-type="video" tabindex="0" role="button"
+            aria-label="Play Desert Motion Film" onclick="openVideoPlayer('desert_motion')">
+            <div class="lens-media-wrap">
+              <video class="lens-preview-video" src="assets/2026.mp4" poster="assets/proc2.jpg" muted playsinline loop
+                preload="metadata"></video>
+              <div class="lens-card-pills">
+                <span class="lens-pill-type video">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
+                    <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                  </svg>
+                  <span>Videography</span>
+                </span>
+                <span class="lens-pill-spec">Sony FX6 · 4K 60p</span>
+              </div>
+              <div class="lens-play-circle" aria-hidden="true">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+                  <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                </svg>
+              </div>
+            </div>
+            <div class="lens-card-info">
+              <div class="lens-info-meta">
+                <h3 class="lens-card-title">Echoes of the High Desert</h3>
+                <span class="lens-card-role">Director of Photography &amp; Grade</span>
+              </div>
+              <p class="lens-card-caption">Wide-gamut documentary cinematography exploring barren horizon light and
+                wildlife scale.</p>
+            </div>
+          </article>
+
+          <!-- Item 2: Photography (Crimson Solitude - Eye/Face Beam) -->
+          <article class="lens-card" data-lens-type="photo" tabindex="0" role="button"
+            aria-label="View Editorial Portrait"
+            onclick="openPhotoLightbox('assets/proc1.jpg', 'Crimson Solitude', 'Hasselblad X2D 100C · 55mm f/2.5 · Natural Sunlight Study')">
+            <div class="lens-media-wrap">
+              <img src="assets/proc1.jpg" alt="High-contrast sunlight portrait" loading="lazy" class="lens-still-img">
+              <div class="lens-card-pills">
+                <span class="lens-pill-type photo">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                    <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path>
+                    <circle cx="12" cy="13" r="4"></circle>
+                  </svg>
+                  <span>Photography</span>
+                </span>
+                <span class="lens-pill-spec">55mm · f/2.5 · ISO 64</span>
+              </div>
+              <div class="lens-zoom-circle" aria-hidden="true">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                  <circle cx="11" cy="11" r="8"></circle>
+                  <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                  <line x1="11" y1="8" x2="11" y2="14"></line>
+                  <line x1="8" y1="11" x2="14" y2="11"></line>
+                </svg>
+              </div>
+            </div>
+            <div class="lens-card-info">
+              <div class="lens-info-meta">
+                <h3 class="lens-card-title">Crimson Solitude</h3>
+                <span class="lens-card-role">Editorial Portraiture</span>
+              </div>
+              <p class="lens-card-caption">Chiaroscuro study exploring natural aperture slicing across the human gaze.
+              </p>
+            </div>
+          </article>
+
+          <!-- Item 3: Videography (Mechanical Cadence) -->
+          <article class="lens-card" data-lens-type="video" tabindex="0" role="button"
+            aria-label="Play Mechanical Cadence Film" onclick="openVideoPlayer('mechanical_cadence')">
+            <div class="lens-media-wrap">
+              <video class="lens-preview-video" src="assets/working.mp4" poster="assets/proc3.jpg" muted playsinline
+                loop preload="metadata"></video>
+              <div class="lens-card-pills">
+                <span class="lens-pill-type video">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
+                    <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                  </svg>
+                  <span>Videography</span>
+                </span>
+                <span class="lens-pill-spec">RED Komodo 6K</span>
+              </div>
+              <div class="lens-play-circle" aria-hidden="true">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+                  <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                </svg>
+              </div>
+            </div>
+            <div class="lens-card-info">
+              <div class="lens-info-meta">
+                <h3 class="lens-card-title">Mechanical Cadence</h3>
+                <span class="lens-card-role">Industrial Cinematography</span>
+              </div>
+              <p class="lens-card-caption">High-precision optical tracking and micro-depth focus pulls on advanced
+                hardware.</p>
+            </div>
+          </article>
+
+          <!-- Item 4: Photography (The Red Rock Expedition) -->
+          <article class="lens-card" data-lens-type="photo" tabindex="0" role="button" aria-label="View Red Rock Photo"
+            onclick="openPhotoLightbox('assets/proc4.jpg', 'The Red Rock Expedition', 'Sony A7R V · G-Master 24-70mm f/2.8 · Utah Canyons')">
+            <div class="lens-media-wrap">
+              <img src="assets/proc4.jpg" alt="Vintage yellow bus traveling through towering canyon cliffs"
+                loading="lazy" class="lens-still-img">
+              <div class="lens-card-pills">
+                <span class="lens-pill-type photo">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                    <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path>
+                    <circle cx="12" cy="13" r="4"></circle>
+                  </svg>
+                  <span>Photography</span>
+                </span>
+                <span class="lens-pill-spec">35mm · f/4.0 · 1/800s</span>
+              </div>
+              <div class="lens-zoom-circle" aria-hidden="true">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                  <circle cx="11" cy="11" r="8"></circle>
+                  <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                  <line x1="11" y1="8" x2="11" y2="14"></line>
+                  <line x1="8" y1="11" x2="14" y2="11"></line>
+                </svg>
+              </div>
+            </div>
+            <div class="lens-card-info">
+              <div class="lens-info-meta">
+                <h3 class="lens-card-title">The Red Rock Expedition</h3>
+                <span class="lens-card-role">Travel &amp; Automotive Editorial</span>
+              </div>
+              <p class="lens-card-caption">Analog warmth and monolithic sandstone framing capturing nomadic movement.
+              </p>
+            </div>
+          </article>
+
+          <!-- Item 5: Videography (Urban Velocity) -->
+          <article class="lens-card" data-lens-type="video" tabindex="0" role="button" aria-label="Play Urban Film"
+            onclick="openVideoPlayer('urban_rhythm')">
+            <div class="lens-media-wrap">
+              <video class="lens-preview-video" src="assets/simple.mp4" poster="assets/reel_5.jpg" muted playsinline
+                loop preload="metadata"></video>
+              <div class="lens-card-pills">
+                <span class="lens-pill-type video">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
+                    <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                  </svg>
+                  <span>Videography</span>
+                </span>
+                <span class="lens-pill-spec">BMPCC 6K · Anamorphic</span>
+              </div>
+              <div class="lens-play-circle" aria-hidden="true">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+                  <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                </svg>
+              </div>
+            </div>
+            <div class="lens-card-info">
+              <div class="lens-info-meta">
+                <h3 class="lens-card-title">Urban Velocity</h3>
+                <span class="lens-card-role">Commercial Motion &amp; Color</span>
+              </div>
+              <p class="lens-card-caption">Handheld kinetic tracking capturing metropolitan pace and architectural
+                shadows.</p>
+            </div>
+          </article>
+
+          <!-- Item 6: Photography (Minimal Plain & Fauna) -->
+          <article class="lens-card" data-lens-type="photo" tabindex="0" role="button"
+            aria-label="View Plains Wildlife Photo"
+            onclick="openPhotoLightbox('assets/proc2.jpg', 'Horizon of the Plains', 'Leica M11 · Summicron 50mm f/2 · Wide Open')">
+            <div class="lens-media-wrap">
+              <img src="assets/proc2.jpg" alt="Lone tree and bison on arid desert plains" loading="lazy"
+                class="lens-still-img">
+              <div class="lens-card-pills">
+                <span class="lens-pill-type photo">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                    <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path>
+                    <circle cx="12" cy="13" r="4"></circle>
+                  </svg>
+                  <span>Photography</span>
+                </span>
+                <span class="lens-pill-spec">50mm · f/2.8 · 1/1200s</span>
+              </div>
+              <div class="lens-zoom-circle" aria-hidden="true">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                  <circle cx="11" cy="11" r="8"></circle>
+                  <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                  <line x1="11" y1="8" x2="11" y2="14"></line>
+                  <line x1="8" y1="11" x2="14" y2="11"></line>
+                </svg>
+              </div>
+            </div>
+            <div class="lens-card-info">
+              <div class="lens-info-meta">
+                <h3 class="lens-card-title">Horizon of the Plains</h3>
+                <span class="lens-card-role">Fine Art Landscape Still</span>
+              </div>
+              <p class="lens-card-caption">Contemplative isolation featuring solitary tree geometry and wild American
+                bison.</p>
+            </div>
+          </article>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ==========================================================================
+         TESTIMONIAL (CREATIVE DIRECTOR / CLIENT)
+         ========================================================================== -->
+    <section class="highlight-banner-section" aria-label="Director Recommendation">
+      <div class="container">
+        <div class="highlight-banner-card">
+          <div class="highlight-thumb">
+            <img src="assets/testimonial.jpg" alt="Executive Director portrait" width="130" height="130">
+          </div>
+          <div>
+            <blockquote class="highlight-quote">
+              “Nandhu has an instinct for pacing and emotional resonance. He transformed over 40 hours of raw ARRI
+              rushes into an award-winning brand commercial in record time.”
+            </blockquote>
+            <div class="highlight-footer">
+              <div class="highlight-author">
+                Marcus Vance <span>· Executive Creative Director, Nexa Films</span>
+              </div>
+              <div class="highlight-logos">
+                <span>DaVinci Studio</span>
+                <span>Frame.io</span>
+                <span>ARRI Raw</span>
+                <span>ProRes 4444</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==========================================================================
+         MY EDITING JOURNEY (TIMELINE)
+         ========================================================================== -->
+    <section class="journey-section" id="about" aria-labelledby="journey-heading">
+      <div class="container">
+        <div class="journey-grid">
+
+          <!-- Left: Timeline Cards Track -->
+          <div class="timeline-track">
+
+            <div class="timeline-card">
+              <div class="timeline-card-header">
+                <h3 class="timeline-card-title">Lead Video Editor &amp; Colorist</h3>
+                <span class="timeline-card-date">2023 — Present</span>
+              </div>
+              <div class="timeline-card-company">Independent Post Studio &amp; Tech Clients</div>
+              <p class="timeline-card-desc">
+                Leading post-production pipelines from footage ingest to final broadcast master. Specializing in
+                high-energy commercial pacing, ACES color grading, and custom Foley sound design.
+              </p>
+              <span class="timeline-tag-pill">Color &amp; Finish</span>
+            </div>
+
+            <div class="timeline-card">
+              <div class="timeline-card-header">
+                <h3 class="timeline-card-title">Commercial Post-Producer</h3>
+                <span class="timeline-card-date">2022 — 2023</span>
+              </div>
+              <div class="timeline-card-company">Nexa Media &amp; Cinema Labs</div>
+              <p class="timeline-card-desc">
+                Edited high-conversion digital video campaigns, YouTube documentaries, and kinetic motion graphics for
+                consumer tech startups.
+              </p>
+              <span class="timeline-tag-pill">Commercial Edit</span>
+            </div>
+
+            <div class="timeline-card">
+              <div class="timeline-card-header">
+                <h3 class="timeline-card-title">Assistant Editor &amp; Sound Designer</h3>
+                <span class="timeline-card-date">2021 — 2022</span>
+              </div>
+              <div class="timeline-card-company">Digital Horizon Studios</div>
+              <p class="timeline-card-desc">
+                Managed multi-camera syncs, proxy workflows, dialogue denoising, sound effects library curation, and
+                subtitle masters.
+              </p>
+              <span class="timeline-tag-pill">Assembly &amp; Sound</span>
+            </div>
+
+          </div>
+
+          <!-- Right: Sticky Journey Info -->
+          <div class="journey-info-panel">
+            <h2 id="journey-heading" class="journey-heading">
+              My editing<br>
+              journey so far.
+            </h2>
+            <p class="journey-desc">
+              Over 4 years shaping narratives, fine-tuning cuts to musical transients, and crafting signature cinematic
+              color palettes.
+            </p>
+            <a href="#contact" class="btn btn-outline">
+              <span>Download Rate Card &amp; CV</span>
+            </a>
+
+            <!-- Social Links -->
+            <div class="journey-social-list" aria-label="Social Profiles">
+              <a href="https://youtube.com" target="_blank" rel="noopener noreferrer" class="journey-social-icon"
+                aria-label="YouTube Channel">
+                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path
+                    d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.33z">
+                  </path>
+                  <polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02"></polygon>
+                </svg>
+              </a>
+              <a href="https://vimeo.com" target="_blank" rel="noopener noreferrer" class="journey-social-icon"
+                aria-label="Vimeo Portfolio">
+                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path
+                    d="M23 7.5c-.1 2.3-1.7 5.4-4.8 9.3-3.2 4-5.9 6-8.1 6-1.4 0-2.5-1.3-3.5-3.8l-1.9-7C4.1 9.8 3.3 8.7 2.3 8.7c-.2 0-.9.4-2.1 1.2L0 8.6C1.3 7.5 2.6 6.3 4 5.2c1.9-1.5 3.3-2.3 4.2-2.3 2.1 0 3.4 1.4 3.9 4.3.5 3.1.8 5 1.1 5.9.6 2.4 1.3 3.6 2.1 3.6.6 0 1.5-.9 2.5-2.7 1-1.8 1.6-3.2 1.6-4.1 0-1.5-.7-2.3-2.1-2.3-.6 0-1.3.1-2 .4 1.3-4.2 3.8-6.3 7.5-6.3 2.8 0 4.1 1.8 4.2 5.3z">
+                  </path>
+                </svg>
+              </a>
+              <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" class="journey-social-icon"
+                aria-label="Instagram">
+                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                  <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                  <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+                </svg>
+              </a>
+              <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" class="journey-social-icon"
+                aria-label="LinkedIn">
+                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
+                  <rect x="2" y="9" width="4" height="12"></rect>
+                  <circle cx="4" cy="4" r="2"></circle>
+                </svg>
+              </a>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ==========================================================================
+         SERVICES SECTION (POST-PRODUCTION OFFERINGS)
+         ========================================================================== -->
+    <section class="services-section" id="services" aria-labelledby="services-heading">
+      <div class="container">
+
+        <div class="center-header">
+          <h2 id="services-heading" class="section-title">
+            What I can<br>
+            help you with.
+          </h2>
+          <p class="section-desc">
+            Complete post-production capabilities from offline editorial rhythm to cinematic grade and delivery.
+          </p>
+        </div>
+
+        <div class="services-grid-row">
+
+          <!-- Card 1: Solid Black Promo Card -->
+          <div class="service-promo-card">
+            <div class="service-promo-lead">
+              Everything you need to turn raw footage into cinematic magic.
+            </div>
+            <a href="#contact" class="btn btn-white btn-sm" style="margin-top: 32px; width: fit-content;">
+              <span>Book an Edit</span>
+            </a>
+          </div>
+
+          <!-- Card 2 -->
+          <div class="service-item-card">
+            <div class="service-item-thumb">
+              <img src="assets/srv1.jpg" alt="Commercial video editing desk" loading="lazy" width="280" height="175">
+            </div>
+            <div class="service-item-body">
+              <h3 class="service-item-title">Commercial &amp; Ad Editing</h3>
+              <p class="service-item-desc">High-retention social cuts, 16:9 broadcast masters, and 9:16 vertical hooks
+                that convert.</p>
+            </div>
+          </div>
+
+          <!-- Card 3 -->
+          <div class="service-item-card">
+            <div class="service-item-thumb">
+              <img src="assets/srv2.jpg" alt="DaVinci Resolve color grading console" loading="lazy" width="280"
+                height="175">
+            </div>
+            <div class="service-item-body">
+              <h3 class="service-item-title">Color Grading &amp; Finishing</h3>
+              <p class="service-item-desc">ACES color management, custom look creation, Kodak film stock emulation, and
+                shot matching.</p>
+            </div>
+          </div>
+
+          <!-- Card 4 -->
+          <div class="service-item-card">
+            <div class="service-item-thumb">
+              <img src="assets/srv3.jpg" alt="Sound design waveforms and audio mixing" loading="lazy" width="280"
+                height="175">
+            </div>
+            <div class="service-item-body">
+              <h3 class="service-item-title">Sound Design &amp; Foley</h3>
+              <p class="service-item-desc">Audio cleanup, immersive atmospheric soundscapes, impact risers, and balanced
+                stereo/5.1 mixes.</p>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ==========================================================================
+         PROCESS (HOW I SHAPE EVERY CUT)
+         ========================================================================== -->
+    <section class="process-section" id="process" aria-labelledby="process-heading">
+      <div class="container">
+
+        <div style="margin-bottom: 50px;">
+          <h2 id="process-heading" class="section-title">
+            How I shape every<br>
+            cinematic cut.
+          </h2>
+          <p class="section-desc">
+            A structured post-production workflow designed for speed, clarity, and flawless execution.
+          </p>
+        </div>
+
+        <div class="process-layout-grid">
+
+          <!-- Sticky Left Sidebar -->
+          <aside class="process-sidebar" aria-label="Process Step Navigation">
+            <a href="#step-1" class="process-nav-link active">
+              <span class="process-step-num">01</span>
+              <span class="process-step-name">Research</span>
+            </a>
+            <a href="#step-2" class="process-nav-link">
+              <span class="process-step-num">02</span>
+              <span class="process-step-name">Design</span>
+            </a>
+            <a href="#step-3" class="process-nav-link">
+              <span class="process-step-num">03</span>
+              <span class="process-step-name">Develop</span>
+            </a>
+            <a href="#step-4" class="process-nav-link">
+              <span class="process-step-num">04</span>
+              <span class="process-step-name">Handoff</span>
+            </a>
+          </aside>
+
+          <!-- Right Alternating Process Cards -->
+          <div class="process-cards-stream">
+
+            <!-- Step 1: Photo Left, Content Right -->
+            <div class="process-card-unit" id="step-1">
+              <div class="process-card-photo">
+                <img src="assets/proc1.jpg" alt="Research phase" loading="lazy">
+              </div>
+              <div class="process-card-content">
+                <div class="process-card-header">
+                  <span class="process-card-index">/01</span>
+                  <span class="process-black-pill">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                      stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M10 11h4"></path>
+                      <circle cx="7" cy="12" r="4.5"></circle>
+                      <circle cx="17" cy="12" r="4.5"></circle>
+                    </svg>
+                    <span>Research</span>
+                  </span>
+                </div>
+                <h3 class="process-card-headline">Understand the problem before solutions.</h3>
+                <p class="process-card-body">We dig into user needs, competitor patterns, and stakeholder goals to
+                  uncover what matters most before any design work begins.</p>
+              </div>
+            </div>
+
+            <!-- Step 2: Content Left, Photo Right -->
+            <div class="process-card-unit reverse" id="step-2">
+              <div class="process-card-content">
+                <div class="process-card-header">
+                  <span class="process-card-index">/02</span>
+                  <span class="process-black-pill">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
+                      stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M12 20h9"></path>
+                      <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path>
+                    </svg>
+                    <span>Design</span>
+                  </span>
+                </div>
+                <h3 class="process-card-headline">Shape clear, considered product experiences.</h3>
+                <p class="process-card-body">Concepts turn into flows, wireframes, and polished interfaces that balance
+                  usability with brand expression across every key journey.</p>
+              </div>
+              <div class="process-card-photo">
+                <img src="assets/proc2.jpg" alt="Design phase" loading="lazy">
+              </div>
+            </div>
+
+            <!-- Step 3: Photo Left, Content Right -->
+            <div class="process-card-unit" id="step-3">
+              <div class="process-card-photo">
+                <img src="assets/proc3.jpg" alt="Develop phase" loading="lazy">
+              </div>
+              <div class="process-card-content">
+                <div class="process-card-header">
+                  <span class="process-card-index">/03</span>
+                  <span class="process-black-pill">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
+                      stroke-linecap="round" stroke-linejoin="round">
+                      <polyline points="16 18 22 12 16 6"></polyline>
+                      <polyline points="8 6 2 12 8 18"></polyline>
+                    </svg>
+                    <span>Develop</span>
+                  </span>
+                </div>
+                <h3 class="process-card-headline">Bring the vision to life with precision.</h3>
+                <p class="process-card-body">Crafting high-fidelity interactions, fluid animations, and robust
+                  implementation ensuring pixel-perfect fidelity and smooth performance.</p>
+              </div>
+            </div>
+
+            <!-- Step 4: Content Left, Photo Right -->
+            <div class="process-card-unit reverse" id="step-4">
+              <div class="process-card-content">
+                <div class="process-card-header">
+                  <span class="process-card-index">/04</span>
+                  <span class="process-black-pill">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
+                      stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                      <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                    </svg>
+                    <span>Handoff</span>
+                  </span>
+                </div>
+                <h3 class="process-card-headline">Seamless delivery and production assets.</h3>
+                <p class="process-card-body">Providing comprehensive asset packages, design systems, and documentation
+                  for seamless deployment and ongoing maintenance.</p>
+              </div>
+              <div class="process-card-photo">
+                <img src="assets/proc4.jpg" alt="Handoff phase" loading="lazy">
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ==========================================================================
+         THOUGHTS ON EDITING (ESSAYS & INSIGHTS)
+         ========================================================================== -->
+    <section class="thoughts-section" id="writing" aria-labelledby="thoughts-heading">
+      <div class="container">
+
+        <div class="center-header">
+          <h2 id="thoughts-heading" class="section-title">
+            Thoughts on<br>
+            editing and...
+          </h2>
+          <p class="section-desc">
+            Insights on narrative pacing, color psychology, and sound design techniques for modern filmmakers.
+          </p>
+        </div>
+
+        <div class="thoughts-grid-composite">
+
+          <!-- Top Left Wide Card -->
+          <div class="thought-card thought-card-top-left" tabindex="0" role="button"
+            aria-label="Read essay on invisible cuts" onclick="openArticle('hierarchy')">
+            <img src="assets/blog1.jpg" alt="Cinematic moody low-light scene" loading="lazy" width="700" height="394">
+            <div class="thought-overlay">
+              <h3 class="thought-title">The psychology of the invisible cut in commercial pacing.</h3>
+            </div>
+          </div>
+
+          <!-- Top Right Vertical Card -->
+          <div class="thought-card thought-card-top-right" tabindex="0" role="button"
+            aria-label="Read essay on audio and Foley" onclick="openArticle('typography')">
+            <img src="assets/blog2.jpg" alt="Red blossom color contrast art" loading="lazy" width="450" height="562">
+            <div class="thought-overlay">
+              <h3 class="thought-title">Why sound design and Foley carry 70% of emotional weight.</h3>
+            </div>
+          </div>
+
+          <!-- Bottom Left Card -->
+          <div class="thought-card thought-card-bottom-left" tabindex="0" role="button"
+            aria-label="Read essay on color looks" onclick="openArticle('micro')">
+            <img src="assets/blog3.jpg" alt="Subtle organic textures" loading="lazy" width="580" height="362">
+            <div class="thought-overlay">
+              <h3 class="thought-title">Developing a signature cinematic color grade in DaVinci.</h3>
+            </div>
+          </div>
+
+          <!-- Bottom Right Card -->
+          <div class="thought-card thought-card-bottom-right" tabindex="0" role="button"
+            aria-label="Read essay on retention" onclick="openArticle('tokens')">
+            <img src="assets/blog4.jpg" alt="Pastel color study" loading="lazy" width="580" height="362">
+            <div class="thought-overlay">
+              <h3 class="thought-title">High-retention editing: how pacing keeps audiences hooked.</h3>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ==========================================================================
+         GET IN TOUCH (CONTACT SECTION — PITCH BLACK CARD)
+         ========================================================================== -->
+    <section class="contact-section-dark" id="contact" aria-labelledby="contact-dark-heading">
+      <div class="container">
+        <div class="contact-dark-card">
+
+          <!-- Left Column -->
+          <div>
+            <h2 id="contact-dark-heading" class="contact-dark-title">
+              Get in touch,<br>
+              and let's chat.
+            </h2>
+            <p class="contact-dark-desc">
+              Have an upcoming commercial, documentary, or music film project? Let’s review your footage timeline.
+            </p>
+
+            <div class="contact-media-card">
+              <img src="assets/contact.jpg" alt="Cinematic production still" width="320" height="200">
+            </div>
+
+            <a href="mailto:hello@nandhu.design" class="contact-email-btn">
+              <span>Send direct email</span>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+                <polyline points="12 5 19 12 12 19"></polyline>
+              </svg>
+            </a>
+          </div>
+
+          <!-- Right Column: Video Production Inquiry Form -->
+          <div>
+            <form action="https://formsubmit.co/nandhuthingsofficial@gmail.com" method="POST" id="contact-form"
+              class="contact-dark-form" aria-label="Video Post-Production Inquiry Form">
+
+              <!-- FormSubmit Configuration Fields -->
+              <input type="hidden" name="_captcha" value="false">
+              <input type="hidden" name="_template" value="table">
+              <input type="hidden" name="_subject" value="New Project Inquiry — Nandhulal P S Portfolio">
+              <input type="hidden" name="_replyto" id="form-reply-to" value="">
+              <input type="hidden" name="_next" id="form-next-url" value="">
+              <input type="hidden" name="currency" id="selected-currency" value="USD">
+              <input type="hidden" name="Formatted_Budget" id="formatted-budget-input" value="">
+
+              <!-- Reason for Contact / Project Scope -->
+              <div class="form-group-block">
+                <label class="form-label-dark">Reason for Contact / Project Scope</label>
+                <div class="form-row-pills" role="radiogroup" aria-label="Reason for Contact">
+                  <label class="form-pill-choice">
+                    <input type="radio" name="reason" value="Commercial Video Editing" checked>
+                    <span class="form-pill-label">Commercial Editing</span>
+                  </label>
+                  <label class="form-pill-choice">
+                    <input type="radio" name="reason" value="Color Grading & Finishing">
+                    <span class="form-pill-label">Color Grading</span>
+                  </label>
+                  <label class="form-pill-choice">
+                    <input type="radio" name="reason" value="Short-Form / Reels Motion">
+                    <span class="form-pill-label">Reels / Shorts</span>
+                  </label>
+                  <label class="form-pill-choice">
+                    <input type="radio" name="reason" value="Cinematography & Photography">
+                    <span class="form-pill-label">Photo &amp; Video</span>
+                  </label>
+                  <label class="form-pill-choice">
+                    <input type="radio" name="reason" value="Full Post-Production Package">
+                    <span class="form-pill-label">Full Post-Production</span>
+                  </label>
+                  <label class="form-pill-choice">
+                    <input type="radio" name="reason" value="General Inquiry">
+                    <span class="form-pill-label">General Inquiry</span>
+                  </label>
+                </div>
+              </div>
+
+              <!-- Name & Email Inputs Pair -->
+              <div class="form-inputs-pair">
+                <input type="text" name="name" id="contact-name" class="form-input-dark"
+                  placeholder="Your Name or Studio" required autocomplete="name">
+                <input type="email" name="email" id="contact-email" class="form-input-dark" placeholder="Email address"
+                  required autocomplete="email">
+              </div>
+
+              <!-- Budget Header & Currency Switch -->
+              <div class="form-group-block">
+                <div class="form-budget-header">
+                  <label class="form-label-dark">Estimated Budget / Investment</label>
+                  <div class="currency-switch-wrap">
+                    <span class="currency-switch-label">Currency:</span>
+                    <div class="currency-switch-pills" role="group" aria-label="Currency Switcher">
+                      <button type="button" class="currency-btn active" data-currency="USD" data-symbol="$">USD
+                        ($)</button>
+                      <button type="button" class="currency-btn" data-currency="EUR" data-symbol="€">EUR (€)</button>
+                      <button type="button" class="currency-btn" data-currency="GBP" data-symbol="£">GBP (£)</button>
+                      <button type="button" class="currency-btn" data-currency="INR" data-symbol="₹">INR (₹)</button>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Custom Amount Input -->
+                <div class="custom-amount-wrapper">
+                  <span class="custom-amount-prefix" id="currency-symbol-display" aria-hidden="true">$</span>
+                  <input type="number" name="custom_amount" id="custom-amount-input"
+                    class="form-input-dark custom-amount-input" placeholder="Enter custom amount (e.g. 2500)" min="1"
+                    step="any">
+                  <span class="custom-amount-suffix" id="currency-code-display">USD</span>
+                </div>
+
+                <!-- Quick Budget Presets -->
+                <div class="form-row-pills budget-presets-row" role="radiogroup" aria-label="Budget Quick Presets">
+                  <label class="form-pill-choice">
+                    <input type="radio" name="budget_tier" value="tier1" data-amount-usd="1000" data-amount-eur="950"
+                      data-amount-gbp="800" data-amount-inr="75000">
+                    <span class="form-pill-label" id="budget-preset-1">&lt; $1,500</span>
+                  </label>
+                  <label class="form-pill-choice">
+                    <input type="radio" name="budget_tier" value="tier2" data-amount-usd="2500" data-amount-eur="2300"
+                      data-amount-gbp="2000" data-amount-inr="200000" checked>
+                    <span class="form-pill-label" id="budget-preset-2">$1,500 – $4,000</span>
+                  </label>
+                  <label class="form-pill-choice">
+                    <input type="radio" name="budget_tier" value="tier3" data-amount-usd="5000" data-amount-eur="4600"
+                      data-amount-gbp="4000" data-amount-inr="400000">
+                    <span class="form-pill-label" id="budget-preset-3">$4,000+</span>
+                  </label>
+                  <label class="form-pill-choice">
+                    <input type="radio" name="budget_tier" value="custom" id="preset-custom-radio">
+                    <span class="form-pill-label">Custom Amount</span>
+                  </label>
+                </div>
+              </div>
+
+              <!-- Message Textarea -->
+              <textarea name="message" id="contact-message" class="form-textarea-dark"
+                placeholder="Tell me about your footage, cameras, timeline, and delivery specs..." required></textarea>
+
+              <!-- Submit Button -->
+              <button type="submit" id="contact-submit-btn" class="btn btn-white" style="width: 100%;">
+                <span>Send Project Brief</span>
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                  <line x1="5" y1="12" x2="19" y2="12"></line>
+                  <polyline points="12 5 19 12 12 19"></polyline>
+                </svg>
+              </button>
+
+              <div id="contact-feedback" class="form-feedback-box" role="alert" aria-live="polite"></div>
+
+            </form>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ==========================================================================
+         FOOTER & SIGNATURE WATERMARK
+         ========================================================================== -->
+    <footer class="footer-section" role="contentinfo">
+      <div class="container">
+
+        <div class="footer-grid">
+          <div>
+            <h2 class="footer-lead">Let's work together.</h2>
+            <a href="mailto:hello@nandhulalps.com" class="footer-email-link">hello@nandhulalps.com</a>
+            <p class="footer-sub">Available for freelance commercial edits, color finishing, and creative
+              collaborations.</p>
+            <div class="footer-social-row">
+              <a href="https://youtube.com" target="_blank" rel="noopener noreferrer" class="footer-social-btn"
+                aria-label="YouTube">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path
+                    d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.33z">
+                  </path>
+                  <polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02"></polygon>
+                </svg>
+              </a>
+              <a href="https://vimeo.com" target="_blank" rel="noopener noreferrer" class="footer-social-btn"
+                aria-label="Vimeo">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path
+                    d="M23 7.5c-.1 2.3-1.7 5.4-4.8 9.3-3.2 4-5.9 6-8.1 6-1.4 0-2.5-1.3-3.5-3.8l-1.9-7C4.1 9.8 3.3 8.7 2.3 8.7c-.2 0-.9.4-2.1 1.2L0 8.6C1.3 7.5 2.6 6.3 4 5.2c1.9-1.5 3.3-2.3 4.2-2.3 2.1 0 3.4 1.4 3.9 4.3.5 3.1.8 5 1.1 5.9.6 2.4 1.3 3.6 2.1 3.6.6 0 1.5-.9 2.5-2.7 1-1.8 1.6-3.2 1.6-4.1 0-1.5-.7-2.3-2.1-2.3-.6 0-1.3.1-2 .4 1.3-4.2 3.8-6.3 7.5-6.3 2.8 0 4.1 1.8 4.2 5.3z">
+                  </path>
+                </svg>
+              </a>
+              <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" class="footer-social-btn"
+                aria-label="Instagram">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                  <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                  <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+                </svg>
+              </a>
+              <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" class="footer-social-btn"
+                aria-label="LinkedIn">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
+                  <rect x="2" y="9" width="4" height="12"></rect>
+                  <circle cx="4" cy="4" r="2"></circle>
+                </svg>
+              </a>
+            </div>
+          </div>
+
+          <div class="footer-links-cols">
+            <div>
+              <div class="footer-col-title">Navigation</div>
+              <ul class="footer-col-nav">
+                <li><a href="#hero">Showreel</a></li>
+                <li><a href="#works">Selected works</a></li>
+                <li><a href="#about">About &amp; Journey</a></li>
+                <li><a href="#services">Services</a></li>
+                <li><a href="#contact">Contact</a></li>
+              </ul>
+            </div>
+            <div>
+              <div class="footer-col-title">Post Suite</div>
+              <ul class="footer-col-nav">
+                <li><a href="#works">Commercials</a></li>
+                <li><a href="#works">Color Grading</a></li>
+                <li><a href="#works">Sound Design</a></li>
+                <li><a href="#works">Frame.io Client Portal</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Giant Signature Watermark Bleeding Off Bottom Edge -->
+      <div class="footer-watermark-container" aria-hidden="true">
+        <div class="footer-watermark-text">Nandhulal P S</div>
+      </div>
+    </footer>
+
+  </main>
+
+  <!-- ==========================================================================
+       CINEMATIC VIDEO MODAL (PLAYER & BREAKDOWN)
+       ========================================================================== -->
+  <div id="video-modal" class="modal-backdrop" aria-hidden="true" role="dialog" aria-modal="true"
+    aria-labelledby="video-modal-title">
+    <div class="modal-window">
+      <button id="modal-close-btn" class="modal-close-btn" type="button" aria-label="Close video player">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+      </button>
+
+      <!-- Video Player -->
+      <div class="modal-video-wrapper">
+        <video id="modal-video-player" controls preload="metadata" playsinline poster="assets/work1.jpg">
+          <source id="modal-video-src" src="" type="video/mp4">
+          Your browser does not support HTML5 video playback.
+        </video>
+      </div>
+
+      <!-- Specs & Metadata Chips -->
+      <div id="modal-specs" class="modal-specs-bar"></div>
+
+      <h2 id="video-modal-title" class="modal-title"></h2>
+      <p id="video-modal-desc" class="modal-desc"></p>
+
+      <!-- Post-Production Breakdown Pillars -->
+      <div id="modal-breakdown" class="modal-breakdown-grid"></div>
+
+      <div
+        style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; margin-top:20px; padding-top:18px; border-top:1px solid rgba(255,255,255,0.1);">
+        <span style="font-size:12px; color:var(--color-text-muted);">Frame rate: 24.000 fps · ProRes 422 HQ
+          Master</span>
+        <a href="#contact" class="btn btn-white btn-sm" onclick="document.getElementById('modal-close-btn').click();">
+          <span>Inquire Similar Cut</span>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Background Ambient Music: Serene Edit -->
+  <audio id="bg-ambient-audio" preload="auto" loop playsinline>
+    <source src="assets/Serene%20Edit.mp3" type="audio/mpeg">
+  </audio>
+
+  <!-- Global UI Click Sound -->
+  <audio id="ui-click-audio" preload="auto" playsinline>
+    <source src="assets/juniorsoundays-ui-sound-72-527849.mp3" type="audio/mpeg">
+  </audio>
+
+  <!-- High-Res Photography Lightbox Modal -->
+  <div id="photo-modal" class="photo-modal-backdrop" aria-hidden="true" role="dialog" aria-label="Photo Lightbox">
+    <div class="photo-modal-window">
+      <button id="photo-modal-close" class="photo-close-btn" type="button" aria-label="Close photo preview">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+      </button>
+      <div class="photo-modal-img-wrap">
+        <img id="photo-modal-img" src="" alt="Full resolution photography still">
+      </div>
+      <div class="photo-modal-meta">
+        <div class="photo-modal-pill" id="photo-modal-spec">EXIF CAMERA DETAILS</div>
+        <h3 id="photo-modal-title" class="photo-modal-title"></h3>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+
+</html>
