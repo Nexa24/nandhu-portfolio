@@ -1,5 +1,5 @@
 /**
- * Client-side Interactivity for Nandhulal P S — Video Editor Portfolio
+ * Client-side Interactivity for Nandhalal ps — Video Editor Portfolio
  * Real video playback, post-production metadata modals, category filtering & smooth scroll spy
  */
 
@@ -15,6 +15,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initAmbientMusic();
   initClickSound();
   initLensGallery();
+  initWorksPage();
 });
 
 // Mobile menu toggle
@@ -124,9 +125,9 @@ function initProcessScrollSpy() {
    ========================================================================== */
 const videoProjectsData = {
   showreel: {
-    title: 'Nandhulal P S — 2024 Video Editing & Finishing Reel',
+    title: ' P S — 2024 Video Editing & Finishing Reel ',
     desc: 'A dynamic cut demonstrating commercial pacing, rapid transient audio sync, cinematic ACES color grading, and VFX compositing across automotive, fashion, and technology films.',
-    videoUrl: 'assets/working.mp4',
+    videoUrl: 'assets/copy_401AF4C0-359F-4FFD-929F-882FFA2F3C97 3.mov',
     poster: 'assets/nandhu_headphone.png',
     specs: ['4K UHD', '24 FPS', 'ACEScc Color', '5.1 Surround', 'ProRes 4444'],
     breakdown: [
@@ -139,7 +140,7 @@ const videoProjectsData = {
     title: 'Echoes of the High Desert — Documentary Cinematography',
     desc: 'Captured in the open badlands and desert plains. Focus on barren natural geometries, subtle wildlife movement, and wide-gamut golden hour exposure preservation.',
     videoUrl: 'assets/2026.mp4',
-    poster: 'assets/proc2.jpg',
+    poster: 'assets/IMG_7502.jpg',
     specs: ['Documentary', 'Sony FX6', '4K 60p', 'S-Log3 / S-Gamut3.Cine', 'ProRes HQ'],
     breakdown: [
       { key: 'Role', val: 'Director of Photography & Colorist' },
@@ -150,7 +151,7 @@ const videoProjectsData = {
   mechanical_cadence: {
     title: 'Mechanical Cadence — Industrial Hardware Motion',
     desc: 'High-precision commercial motion film exploring micro-electronics, silicon wafers, and industrial PCB assembly. Shot with macro optics and programmable motorized slider moves.',
-    videoUrl: 'assets/working.mp4',
+    videoUrl: 'assets/copy_401AF4C0-359F-4FFD-929F-882FFA2F3C97 3.mov',
     poster: 'assets/proc3.jpg',
     specs: ['Industrial Film', 'RED Komodo 6K', 'Atlas Orion 2x Anamorphic', '6K RAW'],
     breakdown: [
@@ -162,7 +163,7 @@ const videoProjectsData = {
   urban_rhythm: {
     title: 'Urban Velocity — Kinetic Cityscape Spot',
     desc: 'Fast-paced metropolitan visual study capturing the pulse of the city through handheld gimbal moves, neon reflections, and seamless speed ramping.',
-    videoUrl: 'assets/simple.mp4',
+    videoUrl: 'assets/reel_3.MOV',
     poster: 'assets/reel_5.jpg',
     specs: ['Brand Spot', 'BMPCC 6K Pro', 'Zeiss CP.3 Primes', 'ProRes 422'],
     breakdown: [
@@ -174,8 +175,9 @@ const videoProjectsData = {
   work1: {
     title: 'Porsche Nocturne — Cyberpunk Night Commercial Spot',
     desc: 'High-energy commercial edit featuring rapid speed ramps, custom engine audio design, neon glow color grading, and razor-sharp cuts synced to industrial electronic percussion.',
-    videoUrl: 'assets/simple.mp4',
+    videoUrl: 'assets/reel_3.MOV',
     poster: 'assets/work1.jpg',
+    isVertical: true,
     specs: ['Commercial', '01:30', 'RED V-Raptor 8K', 'ACES Color', '9:16 + 16:9'],
     breakdown: [
       { key: 'Client / Director', val: 'Apex Motors / Dir. Julian Vance' },
@@ -188,6 +190,7 @@ const videoProjectsData = {
     desc: 'Mood-driven narrative music video shot in low-light environments. Heavy emphasis on rhythmic breathing room, organic film grain layering, and subtle optical flares.',
     videoUrl: 'assets/2026.mp4',
     poster: 'assets/work2.jpg',
+    isVertical: true,
     specs: ['Music Video', '03:45', 'ARRI Alexa Mini LF', 'Anamorphic 2.39:1'],
     breakdown: [
       { key: 'Artist / Label', val: 'Echo Wave / Subterranean Records' },
@@ -198,8 +201,9 @@ const videoProjectsData = {
   work3: {
     title: 'Craftsman of the Valley — Cinematic Documentary Short',
     desc: 'Human-centered documentary pacing balancing observational silences with kinetic artisan crafting close-ups. Clean dialogue mastering and ambient field recordings.',
-    videoUrl: 'assets/working.mp4',
+    videoUrl: 'assets/copy_401AF4C0-359F-4FFD-929F-882FFA2F3C97 3.mov',
     poster: 'assets/work3.jpg',
+    isVertical: true,
     specs: ['Documentary', '05:12', 'Sony FX9 & Cine Primes', 'Natural Light Color'],
     breakdown: [
       { key: 'Production Co.', val: 'Heritage Film Collective' },
@@ -211,7 +215,7 @@ const videoProjectsData = {
     title: 'Aura Cinematic Short — Avant-Garde Beauty Campaign',
     desc: 'High-fashion editorial film emphasizing skin tone fidelity, soft floral contrasts, and ethereal time-dilation cuts.',
     videoUrl: 'assets/2026.mp4',
-    poster: 'assets/work4.jpg',
+    poster: 'assets/auracloud.jpg',
     specs: ['Editorial', '02:20', 'RED Monstro 8K', 'Film Stock Emulation'],
     breakdown: [
       { key: 'Client', val: 'Aura Cosmica Paris' },
@@ -222,7 +226,7 @@ const videoProjectsData = {
   work5: {
     title: 'Urban Monolith — Brutalist Architectural Motion',
     desc: 'Hypnotic geometric cuts synced to minimalist bass pulses. Exploring concrete textures, architectural perspective lines, and atmospheric haze.',
-    videoUrl: 'assets/simple.mp4',
+    videoUrl: 'assets/reel_3.MOV',
     poster: 'assets/work5.jpg',
     specs: ['Motion Film', '01:45', 'DJI Ronin 4D 6K', '60 FPS Smooth Flow'],
     breakdown: [
@@ -234,7 +238,7 @@ const videoProjectsData = {
   work6: {
     title: 'Bloom Botanica — Luxury Fragrance Commercial',
     desc: 'Macro lens choreography capturing liquid refraction, blossoming petals, and luminous outdoor sunlight with vibrant color separation.',
-    videoUrl: 'assets/working.mp4',
+    videoUrl: 'assets/copy_401AF4C0-359F-4FFD-929F-882FFA2F3C97 3.mov',
     poster: 'assets/work6.jpg',
     specs: ['Commercial Spot', '00:45', 'Phantom Flex4K High-Speed', '1000 FPS'],
     breakdown: [
@@ -256,9 +260,9 @@ const videoProjectsData = {
     ]
   },
   creative: {
-    title: 'Nandhulal P S — Creative Post-Production & Color Reel',
+    title: 'Nandhalal ps — Creative Post-Production & Color Reel',
     desc: 'Cinematic visual suite showcasing color timing, ACEScc color science, multi-camera pacing, and sound design across brand commercials and music films.',
-    videoUrl: 'assets/working.mp4',
+    videoUrl: 'assets/copy_401AF4C0-359F-4FFD-929F-882FFA2F3C97 3.mov',
     poster: 'assets/hero_poster.png',
     specs: ['ACEScc', '24 FPS', 'ProRes 4444', 'DaVinci Resolve Studio'],
     breakdown: [
@@ -268,9 +272,9 @@ const videoProjectsData = {
     ]
   },
   reel_louvre: {
-    title: 'The Louvre Museum Paris — Motion Graphics & Cultural Reel',
+    title: 'THE ART OF THE POUR — A LUXURY COCKTAIL EXPERIENCE',
     desc: 'Kinetic 3D motion graphic showcase featuring stylized Louvre pyramid geometry, French typography choreography, and ambient orchestral sound design.',
-    videoUrl: 'assets/working.mp4',
+    videoUrl: 'assets/copy_401AF4C0-359F-4FFD-929F-882FFA2F3C97 3.mov',
     poster: 'assets/reel_louvre.jpg',
     isVertical: true,
     specs: ['9:16 Vertical Reel', '00:30', 'Motion Graphics', 'Typography Sync'],
@@ -294,10 +298,10 @@ const videoProjectsData = {
     ]
   },
   reel_retro: {
-    title: 'Retro Synth Tech — Industrial Hardware Motion Graphic',
+    title: 'Beyond the Beat',
     desc: 'Monochrome hardware aesthetic with punchy neon accent hits, technical readout overlays, and punchy analog clicks.',
-    videoUrl: 'assets/simple.mp4',
-    poster: 'assets/reel_retro.jpg',
+    videoUrl: 'assets/reel_3.MOV',
+    poster: 'assets/college dj event .MOV',
     isVertical: true,
     specs: ['9:16 Vertical Reel', '00:20', 'Retro Motion', 'Sound FX Design'],
     breakdown: [
@@ -307,22 +311,31 @@ const videoProjectsData = {
     ]
   },
   reel_1: {
-    title: 'E-Money Global Card — Viral Hook Commercial Short',
-    desc: 'High-conversion vertical commercial designed for 3-second hook retention. Vibrant purple neon branding, dynamic 3D card spins, and punchy typography.',
+    title: 'SFX Fast Cut Edits',
+    subtitle: 'Shoot + Edit',
+    desc: 'A high-energy visual montage crafted using handheld footage, dynamic camera movements, rapid cuts, and carefully layered sound effects. With precise sound synchronization and rhythmic editing, ordinary moments are transformed into an engaging and visually impactful sequence.',
     videoUrl: 'assets/2026.mp4',
     poster: 'assets/reel_1.jpg',
     isVertical: true,
-    specs: ['9:16 Vertical Reel', '00:15', 'FinTech Commercial', 'Viral Hook'],
+    specs: ['9:16 Vertical Reel', '00:15', 'Shoot + Edit'],
+    tags: [
+      'SFX Editing',
+      'Fast Cut Editing',
+      'Sound Design',
+      'Handheld Videography',
+      'Cinematic Montage',
+      'Short-form Content'
+    ],
     breakdown: [
-      { key: 'Hook Strategy', val: '0.8s Curiosity Gap Question' },
-      { key: 'Color Grade', val: 'Vibrant Brand Purple & Clean Whites' },
-      { key: 'Conversion Goal', val: 'App Store Install CTA' }
+      { key: 'Editing Style', val: 'SFX & Fast Cut Editing' },
+      { key: 'Sound Design', val: 'Rhythmic Audio & Foley Sync' },
+      { key: 'Cinematography', val: 'Handheld Videography' }
     ]
   },
   reel_2: {
-    title: 'Classic Lens & Film — Vintage 35mm Shutter Reel',
+    title: 'THE ART OF THE POUR — A LUXURY COCKTAIL EXPERIENCE',
     desc: 'Kinetic editorial motion reel featuring analog 35mm SLR camera mechanics, mechanical shutter Foley, and editorial serif title choreography.',
-    videoUrl: 'assets/working.mp4',
+    videoUrl: 'assets/copy_401AF4C0-359F-4FFD-929F-882FFA2F3C97 3.mov',
     poster: 'assets/reel_2.jpg',
     isVertical: true,
     specs: ['9:16 Vertical Reel', '00:22', 'Editorial Motion', 'Analog Sound FX'],
@@ -335,7 +348,7 @@ const videoProjectsData = {
   reel_3: {
     title: 'Renaissance Masterpieces — Cultural 2.5D Parallax Reel',
     desc: 'Museum gallery promo utilizing 2.5D projection mapping, separating fine art classical statues and oil paintings into depth-layered parallax.',
-    videoUrl: 'assets/simple.mp4',
+    videoUrl: 'assets/reel_3.MOV',
     poster: 'assets/reel_3.jpg',
     isVertical: true,
     specs: ['9:16 Vertical Reel', '00:30', '2.5D Parallax', 'Museum Exhibition'],
@@ -361,7 +374,7 @@ const videoProjectsData = {
   reel_5: {
     title: 'Global Roaming SIM — Modern Vector Commercial Spot',
     desc: 'Sleek kinetic animation highlighting international eSIM switching with vibrant ultraviolet palette and micro-interaction animations.',
-    videoUrl: 'assets/working.mp4',
+    videoUrl: 'assets/copy_401AF4C0-359F-4FFD-929F-882FFA2F3C97 3.mov',
     poster: 'assets/reel_5.jpg',
     isVertical: true,
     specs: ['9:16 Vertical Reel', '00:15', 'Vector Motion', 'Social Campaign'],
@@ -414,6 +427,23 @@ window.openVideoPlayer = function (id) {
   // Populate Title & Description
   document.getElementById('video-modal-title').textContent = data.title;
   document.getElementById('video-modal-desc').textContent = data.desc;
+
+  // Populate Tags if present
+  const tagsContainer = document.getElementById('modal-tags');
+  if (tagsContainer) {
+    tagsContainer.innerHTML = '';
+    if (data.tags && data.tags.length > 0) {
+      tagsContainer.style.display = 'flex';
+      data.tags.forEach(t => {
+        const tag = document.createElement('span');
+        tag.className = 'modal-spec-chip';
+        tag.textContent = t;
+        tagsContainer.appendChild(tag);
+      });
+    } else {
+      tagsContainer.style.display = 'none';
+    }
+  }
 
   // Populate Breakdown Pillars
   breakdownContainer.innerHTML = '';
@@ -698,7 +728,7 @@ function initContactForm() {
         feedback.className = 'form-feedback-box success';
         feedback.innerHTML = `
           <div style="font-weight: 700; margin-bottom: 4px;">✓ Project Brief Dispatched!</div>
-          <div>Thank you, <strong>${name}</strong>! Your inquiry for <em>"${reason}"</em> with budget <strong>${budgetDisplay}</strong> has been sent to Nandhulal P S. You will receive a response within 24 hours.</div>
+          <div>Thank you, <strong>${name}</strong>! Your inquiry for <em>"${reason}"</em> with budget <strong>${budgetDisplay}</strong> has been sent to Nandhalal ps. You will receive a response within 24 hours.</div>
         `;
       }
 
@@ -741,7 +771,7 @@ function initDynamicRoleTyping() {
   const roles = [
     'a Video Editor.',
     'a SMM Strategist.',
-    'a Motion Graphic Specialist.'
+    'a I phone videographer'
   ];
 
   let roleIndex = 0;
@@ -789,18 +819,29 @@ function initAutoPlayVisibleVideos() {
       const video = entry.target;
       const card = video.closest('.work-card-reel');
       if (entry.isIntersecting) {
-        video.play().catch(() => { });
-        if (card) card.classList.add('playing');
+        video.play().then(() => {
+          if (card) card.classList.add('playing');
+        }).catch(() => { });
       } else {
         video.pause();
         if (card) card.classList.remove('playing');
       }
     });
   }, {
-    threshold: 0.25
+    threshold: 0.15
   });
 
-  gridVideos.forEach(v => observer.observe(v));
+  gridVideos.forEach(v => {
+    observer.observe(v);
+    const card = v.closest('.work-card-reel');
+    if (card) {
+      card.addEventListener('mouseenter', () => {
+        v.play().then(() => {
+          card.classList.add('playing');
+        }).catch(() => { });
+      });
+    }
+  });
 }
 
 // Interactive 3D Pop-Out Reel Deck with Video Play & Repeat Loop Choreography
@@ -904,12 +945,7 @@ function initReelPopout() {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
         isInView = true;
-        // Start playing the main video; pops out as it starts playing
-        mainVideo.play().then(() => {
-          popOutAndPlay();
-        }).catch(() => {
-          popOutAndPlay();
-        });
+        popOutAndPlay();
       } else {
         isInView = false;
         mainVideo.pause();
@@ -919,7 +955,7 @@ function initReelPopout() {
       }
     });
   }, {
-    threshold: 0.25
+    threshold: 0.15
   });
 
   deckObserver.observe(banner || deck);
@@ -937,7 +973,11 @@ function initReelPopout() {
     });
   }
 
-  // Tap or click deck when collapsed to pop out
+  // Hover or tap deck to pop out and play
+  deck.addEventListener('mouseenter', () => {
+    popOutAndPlay();
+  });
+
   deck.addEventListener('click', (e) => {
     if (!deck.classList.contains('popped-out')) {
       popOutAndPlay();
@@ -1214,6 +1254,130 @@ function initLensGallery() {
     }
   });
 }
+
+// All Works Showcase Page Interactivity (Multi-Category Filtering, Real-Time Search & Live Counts)
+function initWorksPage() {
+  const cards = document.querySelectorAll('.works-catalog-item');
+  const filterTabs = document.querySelectorAll('[data-works-filter]');
+  const searchInput = document.getElementById('works-search-input');
+  const counterEl = document.getElementById('works-counter-number');
+  const noResultsEl = document.getElementById('works-no-results');
+  const resetBtn = document.getElementById('works-reset-search');
+
+  if (!cards.length) return;
+
+  let currentCategory = 'all';
+  let currentSearch = '';
+
+  function filterCatalog() {
+    let visibleCount = 0;
+    const query = currentSearch.toLowerCase().trim();
+
+    cards.forEach(card => {
+      const categories = (card.getAttribute('data-category') || '').toLowerCase().split(/\s+/);
+      const title = (card.querySelector('.works-item-title')?.textContent || '').toLowerCase();
+      const desc = (card.querySelector('.works-item-desc')?.textContent || '').toLowerCase();
+      const client = (card.querySelector('.works-item-client')?.textContent || '').toLowerCase();
+      const keywords = (card.getAttribute('data-keywords') || '').toLowerCase();
+
+      const matchesCat = currentCategory === 'all' || categories.includes(currentCategory);
+      const matchesText = !query ||
+        title.includes(query) ||
+        desc.includes(query) ||
+        client.includes(query) ||
+        keywords.includes(query);
+
+      if (matchesCat && matchesText) {
+        card.style.display = '';
+        setTimeout(() => { card.style.opacity = '1'; }, 10);
+        visibleCount++;
+      } else {
+        card.style.display = 'none';
+        card.style.opacity = '0';
+      }
+    });
+
+    if (counterEl) counterEl.textContent = visibleCount;
+    if (noResultsEl) {
+      noResultsEl.style.display = visibleCount === 0 ? 'block' : 'none';
+    }
+  }
+
+  // Filter Tab Handlers
+  filterTabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      filterTabs.forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
+      currentCategory = tab.getAttribute('data-works-filter');
+      filterCatalog();
+    });
+  });
+
+  // URL query parameter support (e.g. works.html?filter=commercial)
+  try {
+    const urlParams = new URLSearchParams(window.location.search);
+    const filterParam = urlParams.get('filter');
+    if (filterParam) {
+      const matchingTab = document.querySelector(`[data-works-filter="${filterParam}"]`);
+      if (matchingTab) {
+        filterTabs.forEach(t => t.classList.remove('active'));
+        matchingTab.classList.add('active');
+        currentCategory = filterParam;
+        filterCatalog();
+      }
+    }
+  } catch (err) { }
+
+  // Search Input Handler
+  if (searchInput) {
+    searchInput.addEventListener('input', (e) => {
+      currentSearch = e.target.value;
+      filterCatalog();
+    });
+  }
+
+  // Reset Button Handler
+  if (resetBtn) {
+    resetBtn.addEventListener('click', () => {
+      currentCategory = 'all';
+      currentSearch = '';
+      if (searchInput) searchInput.value = '';
+      filterTabs.forEach(t => {
+        if (t.getAttribute('data-works-filter') === 'all') t.classList.add('active');
+        else t.classList.remove('active');
+      });
+      filterCatalog();
+    });
+  }
+
+  // Keyboard accessibility: Enter or Space triggers card action
+  cards.forEach(card => {
+    card.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        card.click();
+      }
+    });
+  });
+
+  // Auto-play videos inside catalog cards when in view or on hover
+  const catalogVideos = document.querySelectorAll('.works-catalog-item video');
+  if (catalogVideos.length && 'IntersectionObserver' in window) {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        const vid = entry.target;
+        if (entry.isIntersecting) {
+          vid.play().catch(() => { });
+        } else {
+          vid.pause();
+        }
+      });
+    }, { threshold: 0.25 });
+
+    catalogVideos.forEach(v => observer.observe(v));
+  }
+}
+
 
 
 
