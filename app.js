@@ -44,30 +44,123 @@ function initMobileNav() {
   });
 }
 
-// Video Genre Filters
+// Smart Project Category Filtering System
 function initVideoFilters() {
-  const filterBtns = document.querySelectorAll('.filter-btn');
-  const workCards = document.querySelectorAll('[data-genre]');
+  const filterBtns = document.querySelectorAll('.category-pill-btn');
+  const reelCards = document.querySelectorAll('.work-card-reel[data-categories]');
+  const horizCards = document.querySelectorAll('.work-card-horizontal[data-categories]');
+  const statusBar = document.getElementById('category-status-bar');
+  const statusName = document.getElementById('category-status-name');
+  const directLink = document.getElementById('category-direct-page-link');
+  const verticalHeading = document.getElementById('vertical-reels-heading-wrap');
+  const horizontalHeading = document.getElementById('horizontal-showcase-heading-wrap');
+  const emptyState = document.getElementById('selected-works-empty-state');
 
+  if (!filterBtns.length) return;
+
+  function applyCategory(catSlug, updateUrl = true) {
+    const slug = (catSlug || 'all').toLowerCase().trim();
+
+    // 1. Update Active Pill
+    let activeBtn = null;
+    filterBtns.forEach(btn => {
+      const btnCat = btn.getAttribute('data-category');
+      if (btnCat === slug) {
+        btn.classList.add('active');
+        btn.setAttribute('aria-selected', 'true');
+        activeBtn = btn;
+      } else {
+        btn.classList.remove('active');
+        btn.setAttribute('aria-selected', 'false');
+      }
+    });
+
+    // Scroll active pill into view smoothly on mobile
+    if (activeBtn) {
+      activeBtn.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+    }
+
+    // 2. Filter Reel Cards
+    let visibleReels = 0;
+    reelCards.forEach(card => {
+      const cardCats = (card.getAttribute('data-categories') || '').split(/\s+/);
+      if (slug === 'all' || cardCats.includes(slug)) {
+        card.style.display = '';
+        card.style.opacity = '1';
+        visibleReels++;
+      } else {
+        card.style.display = 'none';
+        card.style.opacity = '0';
+      }
+    });
+
+    // 3. Filter Horizontal Cards
+    let visibleHoriz = 0;
+    horizCards.forEach(card => {
+      const cardCats = (card.getAttribute('data-categories') || '').split(/\s+/);
+      if (slug === 'all' || cardCats.includes(slug)) {
+        card.style.display = '';
+        card.style.opacity = '1';
+        visibleHoriz++;
+      } else {
+        card.style.display = 'none';
+        card.style.opacity = '0';
+      }
+    });
+
+    const totalVisible = visibleReels + visibleHoriz;
+
+    // 4. Toggle Section Sub-Headings
+    if (verticalHeading) {
+      verticalHeading.style.display = visibleReels > 0 ? '' : 'none';
+    }
+    if (horizontalHeading) {
+      horizontalHeading.style.display = visibleHoriz > 0 ? '' : 'none';
+    }
+
+    // 5. Toggle Empty State
+    if (emptyState) {
+      emptyState.style.display = totalVisible === 0 ? 'block' : 'none';
+    }
+
+    // 6. Update Status Feedback & Dedicated Page Link
+    if (statusBar && directLink) {
+      if (slug === 'all') {
+        statusBar.style.display = 'none';
+      } else {
+        const catName = activeBtn ? activeBtn.querySelector('span:first-child').textContent : slug;
+        if (statusName) statusName.textContent = `${catName} (${totalVisible} projects)`;
+        directLink.href = `work/${slug}/`;
+        directLink.setAttribute('aria-label', `Open dedicated shareable portfolio page for ${catName}`);
+        statusBar.style.display = 'flex';
+      }
+    }
+
+    // 7. Update URL Hash without Page Reload
+    if (updateUrl && history.replaceState) {
+      const newHash = slug === 'all' ? '#works' : `#category=${slug}`;
+      history.replaceState(null, '', newHash);
+    }
+  }
+
+  // Bind click handlers to filter pills
   filterBtns.forEach(btn => {
-    btn.addEventListener('click', () => {
-      filterBtns.forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-
-      const targetGenre = btn.getAttribute('data-genre');
-
-      workCards.forEach(card => {
-        const cardGenre = card.getAttribute('data-genre');
-        if (targetGenre === 'all' || cardGenre === targetGenre) {
-          card.style.display = '';
-          card.style.opacity = '1';
-        } else {
-          card.style.display = 'none';
-          card.style.opacity = '0';
-        }
-      });
+    btn.addEventListener('click', (e) => {
+      e.preventDefault();
+      const targetCat = btn.getAttribute('data-category');
+      applyCategory(targetCat, true);
     });
   });
+
+  // Check URL on load for deep-linked category (?cat=... or #category=...)
+  const urlParams = new URLSearchParams(window.location.search);
+  const catQuery = urlParams.get('cat') || urlParams.get('category');
+  const hashMatch = window.location.hash.match(/category=([a-z0-9-]+)/i);
+  const initialCategory = catQuery || (hashMatch ? hashMatch[1] : 'all');
+
+  if (initialCategory && initialCategory !== 'all') {
+    applyCategory(initialCategory, false);
+  }
 }
 
 // Process Sidebar Active Spy & Smooth Navigation
@@ -121,61 +214,321 @@ function initProcessScrollSpy() {
 }
 
 /* ==========================================================================
+   STRUCTURED PORTFOLIO PROJECTS DATA
+   Easily editable repository for vertical and horizontal video projects.
+   ========================================================================== */
+const verticalProjects = [
+  {
+    id: 'video1',
+    title: 'Urban Sound & Brand Spot',
+    category: 'Commercial Reels',
+    description: 'Product promotions and dynamic brand advertisements with high-retention pacing, rhythmic cuts, and tailored sound design.',
+    thumbnail: 'assets/reel_1.jpg',
+    videoUrl: 'assets/video1.mp4',
+    aspectRatio: '9:16',
+    productionType: 'Shot & Edited by Me',
+    software: 'CapCut Desktop',
+    duration: '00:30',
+    featured: true
+  },
+  {
+    id: 'video2',
+    title: 'Kinetic Travel & Movement',
+    category: 'Fast-Cut Edits',
+    description: 'High-energy editing with speed ramps, dynamic transitions, punchy sound design, and microsecond beat alignment.',
+    thumbnail: 'assets/reel_travel.jpg',
+    videoUrl: 'assets/video2.mp4',
+    aspectRatio: '9:16',
+    productionType: 'Editing Only',
+    software: 'CapCut Desktop',
+    duration: '00:25',
+    featured: true
+  },
+  {
+    id: 'video3',
+    title: 'Creator Persona & Intro',
+    category: 'Self-Presentation Videos',
+    description: 'Personal branding and creator introduction video highlighting clear visual hierarchy, authentic framing, and storytelling.',
+    thumbnail: 'assets/reel_louvre.jpg',
+    videoUrl: 'assets/video3.mp4',
+    aspectRatio: '9:16',
+    productionType: 'Shot & Edited by Me',
+    software: 'CapCut Desktop',
+    duration: '00:45',
+    featured: true
+  },
+  {
+    id: 'video4',
+    title: 'Educational Insights & Dialogue',
+    category: 'Talking Head Videos',
+    description: 'Personality-driven video editing featuring crisp audio cleanup, subtle framing shifts, captions, and educational flow.',
+    thumbnail: 'assets/reel_2.jpg',
+    videoUrl: 'assets/video4.mp4',
+    aspectRatio: '9:16',
+    productionType: 'Editing Only',
+    software: 'Adobe Premiere Pro',
+    duration: '01:00',
+    featured: true
+  },
+  {
+    id: 'video5',
+    title: 'Atmospheric City Reflections',
+    category: 'Creative & Cinematic Edits',
+    description: 'Visually engaging cinematic storytelling captured on mobile and edited with atmospheric pacing and moody color tones.',
+    thumbnail: 'assets/work6.jpg',
+    videoUrl: 'assets/video5.mp4',
+    aspectRatio: '9:16',
+    productionType: 'Shot & Edited by Me',
+    software: 'CapCut Desktop',
+    duration: '00:35',
+    featured: true
+  },
+  {
+    id: 'video6',
+    title: 'Nocturnal Visual Rhythm',
+    category: 'Recent Editing Projects',
+    description: 'Recent creative edit with rhythm-matched cuts, customized transitions, and modern social format finishing.',
+    thumbnail: 'assets/work1.jpg',
+    videoUrl: 'assets/video6.mp4',
+    aspectRatio: '9:16',
+    productionType: 'Editing Only',
+    software: 'CapCut Desktop',
+    duration: '00:28',
+    featured: true
+  }
+];
+
+const horizontalProjects = [
+  {
+    id: 'video7',
+    title: 'Long-Form Storytelling & Pacing',
+    category: 'YouTube Videos',
+    description: 'Structured YouTube video pacing, engaging b-roll placement, audio leveling, and viewer-retention structuring.',
+    thumbnail: 'assets/work3.jpg',
+    videoUrl: 'assets/video7.mp4',
+    aspectRatio: '16:9',
+    productionType: 'Editing Only',
+    software: 'CapCut Desktop',
+    duration: '04:15',
+    featured: true
+  },
+  {
+    id: 'video8',
+    title: 'Brand Showcase & Product Visuals',
+    category: 'Horizontal Commercial Videos',
+    description: 'Widescreen commercial edit balancing product highlights, clean motion graphics, and punchy promotional timing.',
+    thumbnail: 'assets/work5.jpg',
+    videoUrl: 'assets/video8.mp4',
+    aspectRatio: '16:9',
+    productionType: 'Shot & Edited by Me',
+    software: 'CapCut Desktop',
+    duration: '01:20',
+    featured: true
+  },
+  {
+    id: 'video9',
+    title: 'Cinematic Atmosphere & Field Reel',
+    category: 'Cinematic / Creative Video Projects',
+    description: 'Mobile-captured cinematic project exploring natural landscapes, light transitions, and evocative soundscapes.',
+    thumbnail: 'assets/work2.jpg',
+    videoUrl: 'assets/video9.mp4',
+    aspectRatio: '16:9',
+    productionType: 'Shot & Edited by Me',
+    software: 'Adobe Premiere Pro',
+    duration: '02:10',
+    featured: true
+  }
+];
+
+/* ==========================================================================
    VIDEO DATA STORE (POST-PRODUCTION METADATA)
    ========================================================================== */
 const videoProjectsData = {
+  // Showreel & Creator Intro
   showreel: {
-    title: ' P S — 2024 Video Editing & Finishing Reel ',
-    desc: 'A dynamic cut demonstrating commercial pacing, rapid transient audio sync, cinematic ACES color grading, and VFX compositing across automotive, fashion, and technology films.',
-    videoUrl: 'assets/copy_401AF4C0-359F-4FFD-929F-882FFA2F3C97 3.mov',
+    title: 'Nandhalal P S — Video Editor & Content Creator Reel',
+    desc: 'A dynamic showcase of rhythmic cuts, speed ramps, sound design, color styling, and visual storytelling across commercial videos and vertical reels.',
+    videoUrl: 'assets/video1.mp4',
     poster: 'assets/nandhu_headphone.png',
-    specs: ['4K UHD', '24 FPS', 'ACEScc Color', '5.1 Surround', 'ProRes 4444'],
+    specs: ['Creator Reel', '1080p / 4K', 'CapCut & Premiere Pro', 'Sound Design'],
     breakdown: [
-      { key: 'Editorial Style', val: 'High-Retention Narrative & Beat-Sync' },
-      { key: 'Color Pipeline', val: 'DaVinci Resolve · Kodak 2383 LUT' },
-      { key: 'Sound Design', val: 'Custom Foley, Low-end Risers & Stems' }
+      { key: 'Role', val: 'Video Editor & Videographer' },
+      { key: 'Primary Tool', val: 'CapCut Desktop' },
+      { key: 'Focus', val: 'Fast-Paced Rhythmic Storytelling & Color Grading' }
     ]
   },
-  desert_motion: {
-    title: 'Echoes of the High Desert — Documentary Cinematography',
-    desc: 'Captured in the open badlands and desert plains. Focus on barren natural geometries, subtle wildlife movement, and wide-gamut golden hour exposure preservation.',
-    videoUrl: 'assets/2026.mp4',
-    poster: 'assets/IMG_7502.jpg',
-    specs: ['Documentary', 'Sony FX6', '4K 60p', 'S-Log3 / S-Gamut3.Cine', 'ProRes HQ'],
+
+  // 6 Vertical Showcase Projects (9:16)
+  video1: {
+    title: 'Urban Sound & Brand Spot',
+    desc: 'Product promotions and dynamic brand advertisements with high-retention pacing, rhythmic cuts, and tailored sound design.',
+    videoUrl: 'assets/video1.mp4',
+    poster: 'assets/reel_1.jpg',
+    isVertical: true,
+    specs: ['9:16 Vertical Reel', '00:30', 'Commercial Reels', 'Shot & Edited by Me'],
     breakdown: [
-      { key: 'Role', val: 'Director of Photography & Colorist' },
-      { key: 'Optics', val: 'Sony G-Master 24-70mm & 70-200mm f/2.8' },
-      { key: 'Color Pipeline', val: 'ACEScc · DaVinci Resolve Wide Gamut' }
+      { key: 'Production Type', val: 'Shot & Edited by Me' },
+      { key: 'Software', val: 'CapCut Desktop' },
+      { key: 'Focus', val: 'Product staging, transient sound sync & brand timing' }
+    ],
+    tags: ['Commercial', 'Reels', 'Shot & Edited', 'Sound Design']
+  },
+  video2: {
+    title: 'Kinetic Travel & Movement',
+    desc: 'High-energy fast-cut edit with rhythmic speed ramps, seamless transitions, punchy sound design, and microsecond beat alignment.',
+    videoUrl: 'assets/video2.mp4',
+    poster: 'assets/reel_travel.jpg',
+    isVertical: true,
+    specs: ['9:16 Vertical Reel', '00:25', 'Fast-Cut Edits', 'Editing Only'],
+    breakdown: [
+      { key: 'Production Type', val: 'Editing Only' },
+      { key: 'Software', val: 'CapCut Desktop' },
+      { key: 'Technique', val: 'Speed Ramps, Whip Transitions & Impact Audio' }
+    ],
+    tags: ['Fast-Cut', 'Transitions', 'Editing Only', 'Rhythm']
+  },
+  video3: {
+    title: 'Creator Persona & Intro',
+    desc: 'Personal branding and creator introduction video highlighting clear visual hierarchy, authentic framing, and storytelling.',
+    videoUrl: 'assets/video3.mp4',
+    poster: 'assets/reel_louvre.jpg',
+    isVertical: true,
+    specs: ['9:16 Vertical Reel', '00:45', 'Self-Presentation', 'Shot & Edited by Me'],
+    breakdown: [
+      { key: 'Production Type', val: 'Shot & Edited by Me' },
+      { key: 'Software', val: 'CapCut Desktop' },
+      { key: 'Style', val: 'Creator Introduction & Visual Narrative' }
+    ],
+    tags: ['Creator', 'Self-Presentation', 'Shot & Edited', 'Branding']
+  },
+  video4: {
+    title: 'Educational Insights & Dialogue',
+    desc: 'Personality-driven talking-head video editing with voice clarity optimization, animated captions, and subtle zoom emphasis.',
+    videoUrl: 'assets/video4.mp4',
+    poster: 'assets/reel_2.jpg',
+    isVertical: true,
+    specs: ['9:16 Vertical Reel', '01:00', 'Talking Head', 'Editing Only'],
+    breakdown: [
+      { key: 'Production Type', val: 'Editing Only' },
+      { key: 'Software', val: 'Adobe Premiere Pro' },
+      { key: 'Audio & Text', val: 'Dialogue Cleanup, EQ & Animated Subtitles' }
+    ],
+    tags: ['Talking Head', 'Educational', 'Premiere Pro', 'Subtitles']
+  },
+  video5: {
+    title: 'Atmospheric City Reflections',
+    desc: 'Visually engaging cinematic storytelling captured on mobile and edited with atmospheric pacing and moody color tones.',
+    videoUrl: 'assets/video5.mp4',
+    poster: 'assets/work6.jpg',
+    isVertical: true,
+    specs: ['9:16 Vertical Reel', '00:35', 'Cinematic Edits', 'Shot & Edited by Me'],
+    breakdown: [
+      { key: 'Production Type', val: 'Shot & Edited by Me' },
+      { key: 'Software', val: 'CapCut Desktop' },
+      { key: 'Camera', val: 'Shot on iPhone · 4K Mobile Video' }
+    ],
+    tags: ['Cinematic', 'Shot & Edited', 'Mobile Video', 'Atmospheric']
+  },
+  video6: {
+    title: 'Nocturnal Visual Rhythm',
+    desc: 'Recent creative edit with rhythm-matched cuts, customized transitions, and modern social format finishing.',
+    videoUrl: 'assets/video6.mp4',
+    poster: 'assets/work1.jpg',
+    isVertical: true,
+    specs: ['9:16 Vertical Reel', '00:28', 'Recent Projects', 'Editing Only'],
+    breakdown: [
+      { key: 'Production Type', val: 'Editing Only' },
+      { key: 'Software', val: 'CapCut Desktop' },
+      { key: 'Finishing', val: 'Color Grading & Beat Synchronization' }
+    ],
+    tags: ['Recent', 'Editing Only', 'Beat Sync', 'CapCut']
+  },
+
+  // 3 Horizontal Showcase Projects (16:9)
+  video7: {
+    title: 'Long-Form Storytelling & Pacing',
+    desc: 'Structured YouTube video editing balancing storytelling arc, b-roll cutaways, dynamic sound design, and audience retention pacing.',
+    videoUrl: 'assets/video7.mp4',
+    poster: 'assets/work3.jpg',
+    isVertical: false,
+    specs: ['16:9 Widescreen', '04:15', 'YouTube Videos', 'Editing Only'],
+    breakdown: [
+      { key: 'Production Type', val: 'Editing Only' },
+      { key: 'Software', val: 'CapCut Desktop' },
+      { key: 'Format', val: '16:9 Long-Form / YouTube' }
+    ],
+    tags: ['YouTube', 'Long-Form', 'Editing Only', 'Retention']
+  },
+  video8: {
+    title: 'Brand Showcase & Product Visuals',
+    desc: 'Widescreen commercial production balancing product highlights, clean motion graphics, and punchy promotional timing.',
+    videoUrl: 'assets/video8.mp4',
+    poster: 'assets/work5.jpg',
+    isVertical: false,
+    specs: ['16:9 Widescreen', '01:20', 'Commercial Video', 'Shot & Edited by Me'],
+    breakdown: [
+      { key: 'Production Type', val: 'Shot & Edited by Me' },
+      { key: 'Software', val: 'CapCut Desktop' },
+      { key: 'Format', val: '16:9 Commercial Showcase' }
+    ],
+    tags: ['Commercial', 'Widescreen', 'Shot & Edited', 'Product']
+  },
+  video9: {
+    title: 'Cinematic Atmosphere & Field Reel',
+    desc: 'Atmospheric visual piece captured on mobile and edited with cinematic pacing, evocative soundscapes, and color grading.',
+    videoUrl: 'assets/video9.mp4',
+    poster: 'assets/work2.jpg',
+    isVertical: false,
+    specs: ['16:9 Widescreen', '02:10', 'Cinematic Projects', 'Shot & Edited by Me'],
+    breakdown: [
+      { key: 'Production Type', val: 'Shot & Edited by Me' },
+      { key: 'Software', val: 'Adobe Premiere Pro' },
+      { key: 'Camera & Shooting', val: 'Shot on iPhone · Natural Light' }
+    ],
+    tags: ['Cinematic', 'Shot & Edited', 'iPhone Video', 'Widescreen']
+  },
+
+  // Photography & Videography Showcase Items
+  video10: {
+    title: 'Echoes of the Open Horizon',
+    desc: 'Mobile-captured landscape visual exploring natural light, horizon geometries, and wide golden hour illumination.',
+    videoUrl: 'assets/video10.mp4',
+    poster: 'assets/work2.jpg',
+    specs: ['Mobile Video', 'Shot on iPhone', '4K 60fps', 'Natural Light'],
+    breakdown: [
+      { key: 'Shooting Device', val: 'iPhone (Handheld)' },
+      { key: 'Editing & Grade', val: 'CapCut Desktop & Premiere Pro' },
+      { key: 'Focus', val: 'Natural Landscape Geometry & Light' }
     ]
   },
-  mechanical_cadence: {
-    title: 'Mechanical Cadence — Industrial Hardware Motion',
-    desc: 'High-precision commercial motion film exploring micro-electronics, silicon wafers, and industrial PCB assembly. Shot with macro optics and programmable motorized slider moves.',
-    videoUrl: 'assets/copy_401AF4C0-359F-4FFD-929F-882FFA2F3C97 3.mov',
+  video11: {
+    title: 'Urban Cadence & Pace',
+    desc: 'Dynamic mobile videography exploring urban textures, architectural elements, and handheld tracking movement.',
+    videoUrl: 'assets/video11.mp4',
     poster: 'assets/proc3.jpg',
-    specs: ['Industrial Film', 'RED Komodo 6K', 'Atlas Orion 2x Anamorphic', '6K RAW'],
+    specs: ['Mobile Video', 'Shot on iPhone', '4K 60fps', 'Handheld'],
     breakdown: [
-      { key: 'Role', val: 'Cinematographer & Motion Specialist' },
-      { key: 'Rigging', val: '6-Axis Dana Dolly & Motorized Focus Pull' },
-      { key: 'Finishing', val: 'DCI-P3 Mastering & Custom Sound FX' }
+      { key: 'Shooting Device', val: 'iPhone' },
+      { key: 'Editing', val: 'CapCut Desktop' },
+      { key: 'Focus', val: 'Street Rhythm & Movement Pacing' }
     ]
   },
-  urban_rhythm: {
-    title: 'Urban Velocity — Kinetic Cityscape Spot',
-    desc: 'Fast-paced metropolitan visual study capturing the pulse of the city through handheld gimbal moves, neon reflections, and seamless speed ramping.',
-    videoUrl: 'assets/reel_3.MOV',
+  video12: {
+    title: 'Night City Glow & Movement',
+    desc: 'Handheld mobile night shoot capturing neon reflections, low-light street mood, and rhythmic visual movement.',
+    videoUrl: 'assets/video12.mp4',
     poster: 'assets/reel_5.jpg',
-    specs: ['Brand Spot', 'BMPCC 6K Pro', 'Zeiss CP.3 Primes', 'ProRes 422'],
+    specs: ['Mobile Video', 'Shot on iPhone', 'Low-Light', 'Night Mode'],
     breakdown: [
-      { key: 'Role', val: 'Camera Operator & Finishing Editor' },
-      { key: 'Stabilization', val: 'DJI RS3 Pro & Wireless Follow Focus' },
-      { key: 'Delivery', val: '4K DCI & 9:16 Social Cutdowns' }
+      { key: 'Shooting Device', val: 'iPhone' },
+      { key: 'Editing & Grade', val: 'CapCut Desktop' },
+      { key: 'Focus', val: 'Night Ambient Light & Reflection Pacing' }
     ]
   },
   work1: {
     title: 'Porsche Nocturne — Cyberpunk Night Commercial Spot',
     desc: 'High-energy commercial edit featuring rapid speed ramps, custom engine audio design, neon glow color grading, and razor-sharp cuts synced to industrial electronic percussion.',
-    videoUrl: 'assets/reel_3.MOV',
+    videoUrl: 'assets/video1.mp4',
     poster: 'assets/work1.jpg',
     isVertical: true,
     specs: ['Commercial', '01:30', 'RED V-Raptor 8K', 'ACES Color', '9:16 + 16:9'],
@@ -188,7 +541,7 @@ const videoProjectsData = {
   work2: {
     title: 'Nocturnal Echoes — Experimental Music Film',
     desc: 'Mood-driven narrative music video shot in low-light environments. Heavy emphasis on rhythmic breathing room, organic film grain layering, and subtle optical flares.',
-    videoUrl: 'assets/2026.mp4',
+    videoUrl: 'assets/video6.mp4',
     poster: 'assets/work2.jpg',
     isVertical: true,
     specs: ['Music Video', '03:45', 'ARRI Alexa Mini LF', 'Anamorphic 2.39:1'],
@@ -201,7 +554,7 @@ const videoProjectsData = {
   work3: {
     title: 'Craftsman of the Valley — Cinematic Documentary Short',
     desc: 'Human-centered documentary pacing balancing observational silences with kinetic artisan crafting close-ups. Clean dialogue mastering and ambient field recordings.',
-    videoUrl: 'assets/copy_401AF4C0-359F-4FFD-929F-882FFA2F3C97 3.mov',
+    videoUrl: 'assets/video7.mp4',
     poster: 'assets/work3.jpg',
     isVertical: true,
     specs: ['Documentary', '05:12', 'Sony FX9 & Cine Primes', 'Natural Light Color'],
@@ -214,7 +567,7 @@ const videoProjectsData = {
   work4: {
     title: 'Aura Cinematic Short — Avant-Garde Beauty Campaign',
     desc: 'High-fashion editorial film emphasizing skin tone fidelity, soft floral contrasts, and ethereal time-dilation cuts.',
-    videoUrl: 'assets/2026.mp4',
+    videoUrl: 'assets/video8.mp4',
     poster: 'assets/auracloud.jpg',
     specs: ['Editorial', '02:20', 'RED Monstro 8K', 'Film Stock Emulation'],
     breakdown: [
@@ -226,7 +579,7 @@ const videoProjectsData = {
   work5: {
     title: 'Urban Monolith — Brutalist Architectural Motion',
     desc: 'Hypnotic geometric cuts synced to minimalist bass pulses. Exploring concrete textures, architectural perspective lines, and atmospheric haze.',
-    videoUrl: 'assets/reel_3.MOV',
+    videoUrl: 'assets/video8.mp4',
     poster: 'assets/work5.jpg',
     specs: ['Motion Film', '01:45', 'DJI Ronin 4D 6K', '60 FPS Smooth Flow'],
     breakdown: [
@@ -238,7 +591,7 @@ const videoProjectsData = {
   work6: {
     title: 'Bloom Botanica — Luxury Fragrance Commercial',
     desc: 'Macro lens choreography capturing liquid refraction, blossoming petals, and luminous outdoor sunlight with vibrant color separation.',
-    videoUrl: 'assets/copy_401AF4C0-359F-4FFD-929F-882FFA2F3C97 3.mov',
+    videoUrl: 'assets/video5.mp4',
     poster: 'assets/work6.jpg',
     specs: ['Commercial Spot', '00:45', 'Phantom Flex4K High-Speed', '1000 FPS'],
     breakdown: [
@@ -250,7 +603,7 @@ const videoProjectsData = {
   work7: {
     title: 'Ripple Sound & Rhythm — High-Fidelity Audio Experience',
     desc: 'An exploration in sound-first editing where visual cuts are driven purely by water acoustic transients, underwater hydrophone recordings, and immersive spatial panning.',
-    videoUrl: 'assets/2026.mp4',
+    videoUrl: 'assets/video12.mp4',
     poster: 'assets/work7.jpg',
     specs: ['Sound Experiment', '01:10', 'High-Speed Hydrophone', 'Dolby Atmos Stems'],
     breakdown: [
@@ -262,7 +615,7 @@ const videoProjectsData = {
   creative: {
     title: 'Nandhalal ps — Creative Post-Production & Color Reel',
     desc: 'Cinematic visual suite showcasing color timing, ACEScc color science, multi-camera pacing, and sound design across brand commercials and music films.',
-    videoUrl: 'assets/copy_401AF4C0-359F-4FFD-929F-882FFA2F3C97 3.mov',
+    videoUrl: 'assets/video9.mp4',
     poster: 'assets/hero_poster.png',
     specs: ['ACEScc', '24 FPS', 'ProRes 4444', 'DaVinci Resolve Studio'],
     breakdown: [
@@ -274,7 +627,7 @@ const videoProjectsData = {
   reel_louvre: {
     title: 'THE ART OF THE POUR — A LUXURY COCKTAIL EXPERIENCE',
     desc: 'Kinetic 3D motion graphic showcase featuring stylized Louvre pyramid geometry, French typography choreography, and ambient orchestral sound design.',
-    videoUrl: 'assets/copy_401AF4C0-359F-4FFD-929F-882FFA2F3C97 3.mov',
+    videoUrl: 'assets/video2.mp4',
     poster: 'assets/reel_louvre.jpg',
     isVertical: true,
     specs: ['9:16 Vertical Reel', '00:30', 'Motion Graphics', 'Typography Sync'],
@@ -287,7 +640,7 @@ const videoProjectsData = {
   reel_travel: {
     title: 'Traveling Europe — Fast-Paced Kinetic Typography Reel',
     desc: 'Rapid viral hook reel combining vintage travel textures, bold purple aesthetic typography, and fast-tempo rhythmic cuts.',
-    videoUrl: 'assets/2026.mp4',
+    videoUrl: 'assets/video1.mp4',
     poster: 'assets/reel_travel.jpg',
     isVertical: true,
     specs: ['9:16 Vertical Reel', '00:25', 'Shorts Format', 'Kinetic Editorial'],
@@ -300,8 +653,8 @@ const videoProjectsData = {
   reel_retro: {
     title: 'Beyond the Beat',
     desc: 'Monochrome hardware aesthetic with punchy neon accent hits, technical readout overlays, and punchy analog clicks.',
-    videoUrl: 'assets/reel_3.MOV',
-    poster: 'assets/college dj event .MOV',
+    videoUrl: 'assets/video3.mp4',
+    poster: 'assets/reel_3.jpg',
     isVertical: true,
     specs: ['9:16 Vertical Reel', '00:20', 'Retro Motion', 'Sound FX Design'],
     breakdown: [
@@ -314,7 +667,7 @@ const videoProjectsData = {
     title: 'SFX Fast Cut Edits',
     subtitle: 'Shoot + Edit',
     desc: 'A high-energy visual montage crafted using handheld footage, dynamic camera movements, rapid cuts, and carefully layered sound effects. With precise sound synchronization and rhythmic editing, ordinary moments are transformed into an engaging and visually impactful sequence.',
-    videoUrl: 'assets/2026.mp4',
+    videoUrl: 'assets/video1.mp4',
     poster: 'assets/reel_1.jpg',
     isVertical: true,
     specs: ['9:16 Vertical Reel', '00:15', 'Shoot + Edit'],
@@ -335,7 +688,7 @@ const videoProjectsData = {
   reel_2: {
     title: 'THE ART OF THE POUR — A LUXURY COCKTAIL EXPERIENCE',
     desc: 'Kinetic editorial motion reel featuring analog 35mm SLR camera mechanics, mechanical shutter Foley, and editorial serif title choreography.',
-    videoUrl: 'assets/copy_401AF4C0-359F-4FFD-929F-882FFA2F3C97 3.mov',
+    videoUrl: 'assets/video5.mp4',
     poster: 'assets/reel_2.jpg',
     isVertical: true,
     specs: ['9:16 Vertical Reel', '00:22', 'Editorial Motion', 'Analog Sound FX'],
@@ -348,7 +701,7 @@ const videoProjectsData = {
   reel_3: {
     title: 'Renaissance Masterpieces — Cultural 2.5D Parallax Reel',
     desc: 'Museum gallery promo utilizing 2.5D projection mapping, separating fine art classical statues and oil paintings into depth-layered parallax.',
-    videoUrl: 'assets/reel_3.MOV',
+    videoUrl: 'assets/video5.mp4',
     poster: 'assets/reel_3.jpg',
     isVertical: true,
     specs: ['9:16 Vertical Reel', '00:30', '2.5D Parallax', 'Museum Exhibition'],
@@ -361,7 +714,7 @@ const videoProjectsData = {
   reel_4: {
     title: 'When Traveling — 3D Isometric App Promo Reel',
     desc: 'App launch promo featuring stylized miniature 3D beach vacation assets, smartphone mockups, and smooth camera rotations.',
-    videoUrl: 'assets/2026.mp4',
+    videoUrl: 'assets/video1.mp4',
     poster: 'assets/reel_4.jpg',
     isVertical: true,
     specs: ['9:16 Vertical Reel', '00:18', '3D Isometric', 'Product Marketing'],
@@ -374,7 +727,7 @@ const videoProjectsData = {
   reel_5: {
     title: 'Global Roaming SIM — Modern Vector Commercial Spot',
     desc: 'Sleek kinetic animation highlighting international eSIM switching with vibrant ultraviolet palette and micro-interaction animations.',
-    videoUrl: 'assets/copy_401AF4C0-359F-4FFD-929F-882FFA2F3C97 3.mov',
+    videoUrl: 'assets/video2.mp4',
     poster: 'assets/reel_5.jpg',
     isVertical: true,
     specs: ['9:16 Vertical Reel', '00:15', 'Vector Motion', 'Social Campaign'],
@@ -386,8 +739,69 @@ const videoProjectsData = {
   }
 };
 
+// Aliases for seamless backward compatibility across all video keys
+videoProjectsData.showreel = videoProjectsData.video1;
+videoProjectsData.reel_travel = videoProjectsData.video1;
+videoProjectsData.reel_louvre = videoProjectsData.video2;
+videoProjectsData.reel_retro = videoProjectsData.video3;
+videoProjectsData.vert_1 = videoProjectsData.video1;
+videoProjectsData.vert_2 = videoProjectsData.video2;
+videoProjectsData.vert_3 = videoProjectsData.video3;
+videoProjectsData.vert_4 = videoProjectsData.video4;
+videoProjectsData.vert_5 = videoProjectsData.video5;
+videoProjectsData.vert_6 = videoProjectsData.video6;
+videoProjectsData.horiz_1 = videoProjectsData.video7;
+videoProjectsData.horiz_2 = videoProjectsData.video8;
+videoProjectsData.horiz_3 = videoProjectsData.video9;
+videoProjectsData.desert_motion = videoProjectsData.video10;
+videoProjectsData.mechanical_cadence = videoProjectsData.video11;
+videoProjectsData.urban_rhythm = videoProjectsData.video12;
+
+// Dynamic Cloud / Local sync for public portfolio videos
+(function initDynamicPortfolioSync() {
+  try {
+    const cached = JSON.parse(localStorage.getItem('nandhu_admin_portfolio') || 'null');
+    if (Array.isArray(cached)) {
+      cached.forEach(p => {
+        if (p.id) {
+          videoProjectsData[p.id] = {
+            title: p.title,
+            desc: p.description,
+            videoUrl: p.videoUrl,
+            poster: p.thumbnail,
+            isVertical: p.aspectRatio === '9:16',
+            specs: p.specs || [p.aspectRatio, p.duration, p.productionType],
+            breakdown: p.breakdown || []
+          };
+        }
+      });
+    }
+  } catch (e) {}
+
+  if (window.supabase && window.supabase.createClient) {
+    try {
+      const sb = window.supabase.createClient('https://npswzpmqdsxvqkndtvav.supabase.co', 'sb_publishable_LbI_vgi8e9baElyLznZjXA_1nCBK0XL');
+      sb.from('portfolio_projects').select('*').eq('status', 'published').then(({ data, error }) => {
+        if (!error && Array.isArray(data) && data.length > 0) {
+          data.forEach(p => {
+            videoProjectsData[p.id] = {
+              title: p.title,
+              desc: p.description,
+              videoUrl: p.video_url,
+              poster: p.poster,
+              isVertical: p.is_vertical || p.aspect_ratio === '9:16',
+              specs: [p.aspect_ratio, p.duration, p.production_type],
+              breakdown: []
+            };
+          });
+        }
+      }).catch(() => {});
+    } catch (e) {}
+  }
+})();
+
 window.openVideoPlayer = function (id) {
-  const data = videoProjectsData[id];
+  const data = videoProjectsData[id] || (window.PORTFOLIO_DATA && typeof window.PORTFOLIO_DATA.getProjectById === 'function' ? window.PORTFOLIO_DATA.getProjectById(id) : null);
   if (!data) return;
 
   const modal = document.getElementById('video-modal');
@@ -396,10 +810,8 @@ window.openVideoPlayer = function (id) {
   const videoSrc = document.getElementById('modal-video-src');
   const specsContainer = document.getElementById('modal-specs');
   const breakdownContainer = document.getElementById('modal-breakdown');
+  const embedContainer = document.getElementById('modal-embed-container');
   if (!modal || !videoPlayer) return;
-
-  // Ensure video element is visible
-  videoPlayer.style.display = 'block';
 
   // Toggle 9:16 vertical ratio styling for reels
   if (modalWindow) {
@@ -410,10 +822,98 @@ window.openVideoPlayer = function (id) {
     }
   }
 
-  // Set video source & poster
-  videoSrc.src = data.videoUrl;
-  videoPlayer.poster = data.poster;
-  videoPlayer.load();
+  const rawSource = (data.videoUrl || '').trim();
+  const isWistia = rawSource.includes('wistia') || rawSource.includes('wistia-player') || rawSource.includes('fast.wistia');
+  const isEmbedSnippet = rawSource.includes('<') && rawSource.includes('>');
+  const isYouTube = rawSource.includes('youtube.com') || rawSource.includes('youtu.be');
+  const isVimeo = rawSource.includes('vimeo.com');
+
+  if (isWistia || isEmbedSnippet || isYouTube || isVimeo) {
+    // Hide native HTML5 video player
+    videoPlayer.pause();
+    videoPlayer.style.display = 'none';
+
+    if (embedContainer) {
+      embedContainer.style.display = 'block';
+
+      if (isWistia) {
+        // Ensure Wistia core script is loaded
+        if (!document.getElementById('wistia-core-script')) {
+          const wScript = document.createElement('script');
+          wScript.id = 'wistia-core-script';
+          wScript.src = 'https://fast.wistia.com/player.js';
+          wScript.async = true;
+          document.head.appendChild(wScript);
+        }
+
+        if (isEmbedSnippet) {
+          // Full user-pasted snippet like <script ...></script><wistia-player ...>
+          embedContainer.innerHTML = rawSource;
+          embedContainer.querySelectorAll('script').forEach(oldScript => {
+            const newScript = document.createElement('script');
+            Array.from(oldScript.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value));
+            newScript.appendChild(document.createTextNode(oldScript.innerHTML));
+            oldScript.parentNode.replaceChild(newScript, oldScript);
+          });
+        } else {
+          // Extract Wistia ID from URL or ID string
+          let mediaId = rawSource;
+          const match = rawSource.match(/medias\/([a-zA-Z0-9]+)/) || rawSource.match(/iframe\/([a-zA-Z0-9]+)/) || rawSource.match(/([a-zA-Z0-9]{8,12})/);
+          if (match) mediaId = match[1];
+
+          embedContainer.innerHTML = `
+            <style>
+              wistia-player[media-id='${mediaId}']:not(:defined) {
+                background: center / contain no-repeat url('https://fast.wistia.com/embed/medias/${mediaId}/swatch');
+                display: block;
+                filter: blur(5px);
+                padding-top: ${data.isVertical ? '177.78%' : '56.25%'};
+              }
+            </style>
+            <wistia-player media-id="${mediaId}" aspect="${data.isVertical ? '0.5625' : '1.7777777777777777'}"></wistia-player>
+          `;
+          const embedScript = document.createElement('script');
+          embedScript.src = `https://fast.wistia.com/embed/${mediaId}.js`;
+          embedScript.async = true;
+          embedScript.type = 'module';
+          document.head.appendChild(embedScript);
+        }
+      } else if (isYouTube) {
+        let ytId = '';
+        if (rawSource.includes('youtu.be/')) ytId = rawSource.split('youtu.be/')[1].split('?')[0];
+        else if (rawSource.includes('watch?v=')) ytId = rawSource.split('watch?v=')[1].split('&')[0];
+        else if (rawSource.includes('embed/')) ytId = rawSource.split('embed/')[1].split('?')[0];
+        embedContainer.innerHTML = `<iframe src="https://www.youtube.com/embed/${ytId}?autoplay=1&rel=0" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style="width:100%; height:100%; min-height:420px; border-radius:12px;"></iframe>`;
+      } else if (isVimeo) {
+        const vimeoId = rawSource.split('vimeo.com/')[1]?.split('?')[0] || '';
+        embedContainer.innerHTML = `<iframe src="https://player.vimeo.com/video/${vimeoId}?autoplay=1" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen style="width:100%; height:100%; min-height:420px; border-radius:12px;"></iframe>`;
+      } else {
+        embedContainer.innerHTML = rawSource;
+      }
+    }
+  } else {
+    // Direct video file (MP4, WebM, Supabase storage public URL)
+    if (embedContainer) {
+      embedContainer.style.display = 'none';
+      embedContainer.innerHTML = '';
+    }
+    videoPlayer.style.display = 'block';
+    videoSrc.src = rawSource;
+    videoPlayer.poster = data.poster || '';
+    videoPlayer.load();
+
+    // Graceful fallback if video hasn't been uploaded yet
+    videoPlayer.dataset.fallbackTried = '';
+    videoPlayer.onerror = function () {
+      if (!videoPlayer.dataset.fallbackTried) {
+        videoPlayer.dataset.fallbackTried = 'true';
+        videoSrc.src = 'assets/video1.mp4';
+        videoPlayer.load();
+        videoPlayer.play().catch(() => {});
+      }
+    };
+    videoPlayer.play().catch(() => {});
+  }
 
   // Populate Specs Chips
   specsContainer.innerHTML = '';
@@ -482,6 +982,11 @@ function initModalClose() {
     if (videoPlayer) {
       videoPlayer.pause();
       videoPlayer.currentTime = 0;
+    }
+    const embedContainer = document.getElementById('modal-embed-container');
+    if (embedContainer) {
+      embedContainer.innerHTML = '';
+      embedContainer.style.display = 'none';
     }
     // Restore ambient background music
     if (window.duckAmbientAudio) window.duckAmbientAudio(false);
@@ -563,10 +1068,10 @@ function initContactForm() {
   if (!form) return;
 
   const currencyConfig = {
-    USD: { symbol: '$', code: 'USD', p1: '< $1,500', p2: '$1,500 – $4,000', p3: '$4,000+' },
-    EUR: { symbol: '€', code: 'EUR', p1: '< €1,400', p2: '€1,400 – €3,800', p3: '€3,800+' },
-    GBP: { symbol: '£', code: 'GBP', p1: '< £1,200', p2: '£1,200 – £3,200', p3: '£3,200+' },
-    INR: { symbol: '₹', code: 'INR', p1: '< ₹50,000', p2: '₹50,000 – ₹2,00,000', p3: '₹2,00,000+' }
+    USD: { symbol: '$', code: 'USD', p1: '< $250', p2: '$250 – $1,000', p3: '$1,000+' },
+    EUR: { symbol: '€', code: 'EUR', p1: '< €240', p2: '€240 – €950', p3: '€950+' },
+    GBP: { symbol: '£', code: 'GBP', p1: '< £200', p2: '£200 – £800', p3: '£800+' },
+    INR: { symbol: '₹', code: 'INR', p1: '< ₹20,000', p2: '₹20,000 – ₹80,000', p3: '₹80,000+' }
   };
 
   // 1. Currency Switcher Handler
@@ -667,6 +1172,65 @@ function initContactForm() {
       'Budget / Investment': budgetDisplay,
       'Project Details & Specs': message
     };
+
+    // Synchronize inquiry with Private Admin Dashboard storage
+    try {
+      const enqList = JSON.parse(localStorage.getItem('nandhu_admin_enquiries') || '[]');
+      const newAdminEnq = {
+        id: 'enq-' + Date.now(),
+        name: name,
+        email: email,
+        phone: customAmount ? `${currency} ${customAmount}` : '',
+        reason: reason,
+        budget: budgetDisplay,
+        message: message,
+        date: new Date().toISOString().replace('T', ' ').substring(0, 16),
+        status: 'New'
+      };
+      enqList.unshift(newAdminEnq);
+      localStorage.setItem('nandhu_admin_enquiries', JSON.stringify(enqList));
+
+      // Also log activity in admin
+      const logs = JSON.parse(localStorage.getItem('nandhu_admin_activity_logs') || '[]');
+      logs.unshift({
+        id: 'log-' + Date.now(),
+        text: `New website brief from ${name} (${reason}, ${budgetDisplay})`,
+        time: 'Just now',
+        icon: 'inbox'
+      });
+      if (logs.length > 25) logs.pop();
+      localStorage.setItem('nandhu_admin_activity_logs', JSON.stringify(logs));
+
+      // Direct cloud sync to Supabase enquiries database
+      if (window.supabase && window.supabase.createClient) {
+        try {
+          const sbClient = window.supabase.createClient('https://npswzpmqdsxvqkndtvav.supabase.co', 'sb_publishable_LbI_vgi8e9baElyLznZjXA_1nCBK0XL');
+          sbClient.from('enquiries').insert([{
+            id: newAdminEnq.id,
+            name: newAdminEnq.name,
+            email: newAdminEnq.email,
+            phone: newAdminEnq.phone,
+            reason: newAdminEnq.reason,
+            budget: newAdminEnq.budget,
+            message: newAdminEnq.message,
+            status: 'New'
+          }]).then(({ error }) => {
+            if (error) console.warn('Supabase enquiry sync warning:', error);
+          }).catch(e => console.warn('Supabase enquiry error:', e));
+
+          // Also push activity log
+          sbClient.from('activity_logs').insert([{
+            id: 'log-' + Date.now(),
+            text: `New website brief from ${name} (${reason})`,
+            icon: 'inbox'
+          }]).catch(() => {});
+        } catch (sbErr) {
+          console.warn('Supabase init error:', sbErr);
+        }
+      }
+    } catch (e) {
+      console.warn('Could not sync enquiry to admin store:', e);
+    }
 
     // Format FormSubmit AJAX endpoint URL
     const actionUrl = form.action || 'https://formsubmit.co/nandhuthingsofficial@gmail.com';
@@ -770,8 +1334,8 @@ function initDynamicRoleTyping() {
 
   const roles = [
     'a Video Editor.',
-    'a SMM Strategist.',
-    'a I phone videographer'
+    'a Content Creator.',
+    'an iPhone Videographer.'
   ];
 
   let roleIndex = 0;
@@ -811,13 +1375,13 @@ function initDynamicRoleTyping() {
 
 // Auto-play videos across the page when in visible area
 function initAutoPlayVisibleVideos() {
-  const gridVideos = document.querySelectorAll('.grid-reel-video');
+  const gridVideos = document.querySelectorAll('.grid-reel-video, .grid-horizontal-video');
   if (!gridVideos.length) return;
 
   const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
       const video = entry.target;
-      const card = video.closest('.work-card-reel');
+      const card = video.closest('.work-card-reel, .work-card-horizontal');
       if (entry.isIntersecting) {
         video.play().then(() => {
           if (card) card.classList.add('playing');
@@ -832,13 +1396,23 @@ function initAutoPlayVisibleVideos() {
   });
 
   gridVideos.forEach(v => {
+    v.addEventListener('error', () => {
+      if (!v.dataset.fallbackApplied) {
+        v.dataset.fallbackApplied = 'true';
+        v.src = 'assets/video1.mp4';
+        v.load();
+      }
+    });
     observer.observe(v);
-    const card = v.closest('.work-card-reel');
+    const card = v.closest('.work-card-reel, .work-card-horizontal');
     if (card) {
       card.addEventListener('mouseenter', () => {
         v.play().then(() => {
           card.classList.add('playing');
         }).catch(() => { });
+      });
+      card.addEventListener('mouseleave', () => {
+        // if not currently intersecting or if leaving hover
       });
     }
   });
@@ -851,22 +1425,132 @@ function initReelPopout() {
   const mainVideo = document.getElementById('reel-main-video');
   const leftVideo = document.getElementById('reel-left-video');
   const rightVideo = document.getElementById('reel-right-video');
-  const toggleBtn = document.getElementById('toggle-reels-btn');
-  const btnLabel = document.getElementById('reels-btn-label');
   if (!deck || !mainVideo) return;
+
+  // Dynamic Featured 3-Reel Deck Customizer Synchronization
+  (function syncFeaturedDeck() {
+    let portfolio = [];
+    try {
+      portfolio = JSON.parse(localStorage.getItem('nandhu_admin_portfolio') || '[]');
+    } catch(e) {}
+    if (!portfolio.length && window.PORTFOLIO_DATA && Array.isArray(window.PORTFOLIO_DATA.projects)) {
+      portfolio = window.PORTFOLIO_DATA.projects;
+    }
+
+    let deckConfig = {};
+    try {
+      deckConfig = JSON.parse(localStorage.getItem('nandhu_featured_deck') || '{}');
+    } catch(e) {}
+
+    const slot1 = portfolio.find(p => p.id === deckConfig.left || p.featuredSlot === '1');
+    const slot2 = portfolio.find(p => p.id === deckConfig.center || p.featuredSlot === '2');
+    const slot3 = portfolio.find(p => p.id === deckConfig.right || p.featuredSlot === '3');
+
+    function applySlot(slotCardSelector, videoEl, slotProject, fallbackTitle) {
+      if (!slotProject) return;
+      const card = document.querySelector(slotCardSelector);
+      if (card) {
+        card.onclick = () => window.openVideoPlayer(slotProject.id);
+        card.setAttribute('aria-label', `Play ${slotProject.title}`);
+        const titleEl = card.querySelector('.reel-card-title-overlay');
+        if (titleEl) titleEl.textContent = slotProject.title || fallbackTitle;
+        const badgeEl = card.querySelector('.reel-badge-pill');
+        if (badgeEl) {
+          const categoryTag = Array.isArray(slotProject.categories) && slotProject.categories.length > 0 ? slotProject.categories[0].toUpperCase().replace(/-/g, ' ') : '9:16';
+          badgeEl.textContent = `${categoryTag} · 9:16`;
+        }
+      }
+      if (videoEl && slotProject.videoUrl) {
+        const rawUrl = (slotProject.videoUrl || '').trim();
+        if (rawUrl && !rawUrl.includes('<') && (rawUrl.endsWith('.mp4') || rawUrl.includes('.mp4') || rawUrl.includes('supabase.co'))) {
+          videoEl.src = rawUrl;
+          if (slotProject.poster && !slotProject.poster.includes('reel_travel')) {
+            videoEl.poster = slotProject.poster;
+          }
+          videoEl.load();
+        }
+      }
+    }
+
+    applySlot('.reel-deck-left', leftVideo, slot1, 'Traveling Europe');
+    applySlot('.reel-deck-center', mainVideo, slot2, 'The Louvre Paris');
+    applySlot('.reel-deck-right', rightVideo, slot3, 'Retro Synth Tech');
+
+    // Filter Home Page Selected Works according to showOnHome
+    if (Array.isArray(portfolio)) {
+      portfolio.forEach(p => {
+        if (p.showOnHome === false) {
+          const c = document.querySelector(`[data-project-id="${p.id}"]`);
+          if (c) c.style.display = 'none';
+        }
+      });
+    }
+
+    // Direct background sync from Supabase PostgREST
+    fetch('https://npswzpmqdsxvqkndtvav.supabase.co/rest/v1/portfolio_projects?select=*&status=eq.published&order=sort_order.asc', {
+      headers: {
+        'apikey': 'sb_publishable_LbI_vgi8e9baElyLznZjXA_1nCBK0XL',
+        'Authorization': 'Bearer sb_publishable_LbI_vgi8e9baElyLznZjXA_1nCBK0XL'
+      }
+    })
+    .then(res => res.ok ? res.json() : [])
+    .then(data => {
+      if (Array.isArray(data) && data.length > 0) {
+        const mapped = data.map(r => {
+          const rawCats = Array.isArray(r.categories) ? r.categories : [];
+          return {
+            id: r.id,
+            title: r.title,
+            description: r.description,
+            poster: r.poster,
+            thumbnail: r.poster,
+            videoUrl: r.video_url,
+            isVertical: r.is_vertical,
+            aspectRatio: r.aspect_ratio || (r.is_vertical ? '9:16' : '16:9'),
+            categories: rawCats.filter(c => !['hide-home', 'hide-works', 'featured-slot-1', 'featured-slot-2', 'featured-slot-3'].includes(c)),
+            showOnHome: !rawCats.includes('hide-home'),
+            showOnWorks: !rawCats.includes('hide-works'),
+            featuredSlot: rawCats.includes('featured-slot-1') ? '1' : (rawCats.includes('featured-slot-2') ? '2' : (rawCats.includes('featured-slot-3') ? '3' : 'none')),
+            featured: r.featured || rawCats.some(c => c.startsWith('featured-slot-'))
+          };
+        });
+
+        const s1 = mapped.find(p => p.id === deckConfig.left || p.featuredSlot === '1');
+        const s2 = mapped.find(p => p.id === deckConfig.center || p.featuredSlot === '2');
+        const s3 = mapped.find(p => p.id === deckConfig.right || p.featuredSlot === '3');
+        if (s1) applySlot('.reel-deck-left', leftVideo, s1, 'Traveling Europe');
+        if (s2) applySlot('.reel-deck-center', mainVideo, s2, 'The Louvre Paris');
+        if (s3) applySlot('.reel-deck-right', rightVideo, s3, 'Retro Synth Tech');
+
+        mapped.forEach(p => {
+          if (p.showOnHome === false) {
+            const c = document.querySelector(`[data-project-id="${p.id}"]`);
+            if (c) c.style.display = 'none';
+          }
+        });
+      }
+    })
+    .catch(() => {});
+  })();
+
+  [mainVideo, leftVideo, rightVideo].forEach(v => {
+    if (v) {
+      v.addEventListener('error', () => {
+        if (!v.dataset.fallbackApplied) {
+          v.dataset.fallbackApplied = 'true';
+          v.src = 'assets/video1.mp4';
+          v.load();
+        }
+      });
+    }
+  });
 
   let isInView = false;
   let isTransitioning = false;
 
-  function updateBtnUI(isPopped) {
-    if (btnLabel) btnLabel.textContent = isPopped ? 'Collapse Stack' : 'Pop Out 3 Reels';
-    if (toggleBtn) toggleBtn.setAttribute('aria-expanded', isPopped ? 'true' : 'false');
-  }
-
   // Pop Out and play all 3 videos
   function popOutAndPlay() {
     deck.classList.add('popped-out', 'video-playing');
-    updateBtnUI(true);
 
     if (leftVideo) leftVideo.play().catch(() => { });
     if (rightVideo) rightVideo.play().catch(() => { });
@@ -876,7 +1560,6 @@ function initReelPopout() {
   // Pop In (collapse) back to 1 card and pause auxiliary videos
   function popInAndPause() {
     deck.classList.remove('popped-out', 'video-playing');
-    updateBtnUI(false);
     if (leftVideo) leftVideo.pause();
     if (rightVideo) rightVideo.pause();
   }
@@ -903,7 +1586,6 @@ function initReelPopout() {
 
       // 3. POP OUT: The 3 reels smoothly pop out and fan out again
       deck.classList.add('popped-out', 'video-playing');
-      updateBtnUI(true);
 
       // 4. THEN PLAY: Resume playback once popped out!
       setTimeout(() => {
@@ -934,7 +1616,6 @@ function initReelPopout() {
   mainVideo.addEventListener('play', () => {
     if (isInView && !isTransitioning && !deck.classList.contains('popped-out')) {
       deck.classList.add('popped-out', 'video-playing');
-      updateBtnUI(true);
       if (leftVideo) leftVideo.play().catch(() => { });
       if (rightVideo) rightVideo.play().catch(() => { });
     }
@@ -959,19 +1640,6 @@ function initReelPopout() {
   });
 
   deckObserver.observe(banner || deck);
-
-  // Manual Toggle button
-  if (toggleBtn) {
-    toggleBtn.addEventListener('click', (e) => {
-      e.stopPropagation();
-      const isPopped = deck.classList.contains('popped-out');
-      if (isPopped) {
-        popInAndPause();
-      } else {
-        popOutAndPlay();
-      }
-    });
-  }
 
   // Hover or tap deck to pop out and play
   deck.addEventListener('mouseenter', () => {
@@ -1287,7 +1955,18 @@ function initWorksPage() {
         client.includes(query) ||
         keywords.includes(query);
 
-      if (matchesCat && matchesText) {
+      // Check custom placement visibility from Admin
+      let isVisibleOnWorks = true;
+      try {
+        const cached = JSON.parse(localStorage.getItem('nandhu_admin_portfolio') || '[]');
+        const projectId = card.getAttribute('data-project-id');
+        const match = cached.find(p => (projectId && p.id === projectId) || (p.title && title.includes(p.title.toLowerCase())));
+        if (match && match.showOnWorks === false) {
+          isVisibleOnWorks = false;
+        }
+      } catch(e) {}
+
+      if (matchesCat && matchesText && isVisibleOnWorks) {
         card.style.display = '';
         setTimeout(() => { card.style.opacity = '1'; }, 10);
         visibleCount++;
@@ -1377,6 +2056,63 @@ function initWorksPage() {
     catalogVideos.forEach(v => observer.observe(v));
   }
 }
+
+// ---------------------------------------------------------------------------
+// ADMIN CONTENT LIVE SYNCHRONIZATION
+// ---------------------------------------------------------------------------
+function syncAdminWebsiteContent() {
+  try {
+    const content = JSON.parse(localStorage.getItem('nandhu_admin_website_content') || 'null');
+    if (!content) return;
+
+    // 1. Hero Subtitle / Description
+    if (content.heroDescription) {
+      const heroDesc = document.querySelector('.hero-subtitle');
+      if (heroDesc) heroDesc.textContent = content.heroDescription;
+    }
+
+    // 2. Contact email links
+    if (content.contactEmail) {
+      document.querySelectorAll('a[href^="mailto:"]').forEach(a => {
+        a.href = `mailto:${content.contactEmail}`;
+      });
+    }
+
+    // 3. WhatsApp links
+    if (content.whatsappNumber) {
+      const cleanWa = content.whatsappNumber.replace(/[^0-9]/g, '');
+      document.querySelectorAll('a[href*="wa.me"]').forEach(a => {
+        const url = new URL(a.href);
+        a.href = `https://wa.me/${cleanWa}${url.search}`;
+      });
+    }
+
+    // 4. Instagram link
+    if (content.instagramUrl) {
+      document.querySelectorAll('a[aria-label="Instagram"]').forEach(a => {
+        a.href = content.instagramUrl;
+      });
+    }
+  } catch (e) {
+    console.debug('Admin website content sync note:', e);
+  }
+}
+
+// Global keyboard shortcut to open Admin Studio: Ctrl + Shift + A
+document.addEventListener('keydown', (e) => {
+  if (e.ctrlKey && e.shiftKey && (e.key === 'A' || e.key === 'a')) {
+    e.preventDefault();
+    window.location.href = 'admin/';
+  }
+});
+
+// Run admin sync on load
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', syncAdminWebsiteContent);
+} else {
+  syncAdminWebsiteContent();
+}
+
 
 
 

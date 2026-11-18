@@ -1,0 +1,1136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard — Nandhalal P S | Video Editor & Content Creator</title>
+  <link rel="icon" type="image/svg+xml"
+    href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%234361ee'/><text x='50%' y='68%' font-size='55' font-weight='800' fill='white' text-anchor='middle'>N</text></svg>">
+  
+  <!-- Script to enforce trailing slash for seamless relative asset resolution -->
+  <script>
+    if (window.location.pathname.endsWith('/admin')) {
+      window.location.replace(window.location.pathname + '/' + window.location.search + window.location.hash);
+    }
+  </script>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  
+  <!-- Main Stylesheet -->
+  <link rel="stylesheet" href="admin.css">
+  
+  <!-- Wistia Player Script -->
+  <script src="https://fast.wistia.com/player.js" async></script>
+  
+  <!-- Centralized Data Source Seed -->
+  <script src="../portfolio-data.js"></script>
+</head>
+<body>
+
+  <!-- ==========================================================================
+       AUTHENTICATION OVERLAY (PROTECTED ACCESS - SUPABASE AUTH & MASTER)
+       ========================================================================== -->
+  <div id="admin-auth-overlay" class="hidden" role="dialog" aria-modal="true">
+    <div class="auth-floating-card">
+      <div style="display:flex; justify-content:center; margin-bottom:14px;">
+        <div class="brand-icon-circle" style="width:48px; height:48px; font-size:22px;">N</div>
+      </div>
+      <h2 style="font-size:22px; font-weight:700; margin-bottom:6px;">Admin Dashboard</h2>
+      <p style="font-size:13px; color:var(--text-muted); margin-bottom:14px;">Private Management System · Nandhalal P S</p>
+
+      <div style="display:inline-flex; align-items:center; gap:6px; font-size:11px; background:#ecfdf5; color:#065f46; border:1px solid #a7f3d0; border-radius:9999px; padding:3px 10px; margin-bottom:16px;">
+        <span style="width:6px; height:6px; border-radius:50%; background:#10b981;"></span>
+        <span>Supabase Cloud Auth Active</span>
+      </div>
+
+      <div id="auth-error-box" style="display:none; border-radius:var(--radius-md); padding:10px; font-size:12.5px; margin-bottom:16px;"></div>
+
+      <form id="admin-login-form">
+        <div class="form-field-group" style="text-align:left;">
+          <label class="form-field-label" for="auth-user-input" id="auth-user-label">Email or Username</label>
+          <input type="text" id="auth-user-input" class="form-input-field" placeholder="Supabase Email or nandhu" value="nandhu" required autocomplete="username">
+        </div>
+        <div class="form-field-group" style="text-align:left; margin-bottom:20px;">
+          <label class="form-field-label" for="auth-pass-input">Password</label>
+          <input type="password" id="auth-pass-input" class="form-input-field" placeholder="••••••••••••" value="nandhu@admin2026" required autocomplete="current-password">
+        </div>
+        <button type="submit" id="auth-submit-btn" class="btn-add-pill" style="width:100%; justify-content:center; padding:12px; font-size:13px;">
+          <span id="auth-submit-text">Sign In with Supabase</span>
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
+        </button>
+      </form>
+
+      <div style="margin-top:14px; display:flex; justify-content:center;">
+        <button type="button" id="auth-toggle-mode-btn" style="background:none; border:none; color:var(--primary-blue); font-size:12px; cursor:pointer; font-weight:600; text-decoration:underline;">
+          Create a new Supabase Admin account?
+        </button>
+      </div>
+
+      <div style="margin-top:18px; padding:12px; background:var(--surface-subtle); border-radius:var(--radius-md); font-size:11.5px; color:var(--text-muted); line-height:1.5;">
+        <strong>Login Credentials:</strong><br>
+        1. <strong>Supabase Email:</strong> Sign in with your Supabase user email &amp; password.<br>
+        2. <strong>Master Key:</strong> Username: <code>nandhu</code> · Password: <code>nandhu@admin2026</code>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==========================================================================
+       OUTER VIEWPORT WRAPPER (SOFT LAVENDER CANVASS)
+       ========================================================================== -->
+  <div class="admin-viewport-wrapper">
+    <div class="admin-canvas-card">
+
+      <!-- ======================================================================
+           LEFT SIDEBAR NAVIGATION
+           ====================================================================== -->
+      <aside class="app-sidebar">
+        <!-- Brand Header (Hireism Style) -->
+        <a href="#overview" class="brand-header" onclick="AdminApp.switchView('overview')">
+          <div class="brand-icon-circle">N</div>
+          <span class="brand-text">Nandhu</span>
+        </a>
+
+        <!-- Navigation Links -->
+        <nav class="sidebar-nav-list">
+          <button type="button" class="nav-link-btn active" data-view="overview">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1.5"></rect><rect x="14" y="3" width="7" height="7" rx="1.5"></rect><rect x="14" y="14" width="7" height="7" rx="1.5"></rect><rect x="3" y="14" width="7" height="7" rx="1.5"></rect></svg>
+            <span>Dashboard</span>
+          </button>
+
+          <button type="button" class="nav-link-btn" data-view="clients">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+            <span>Clients</span>
+          </button>
+
+          <button type="button" class="nav-link-btn" data-view="projects">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg>
+            <span>Projects</span>
+          </button>
+
+          <button type="button" class="nav-link-btn" data-view="portfolio">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="23 7 16 12 23 17 23 7"></polygon><rect x="1" y="5" width="15" height="14" rx="2" ry="2"></rect></svg>
+            <span>Portfolio</span>
+          </button>
+
+          <button type="button" class="nav-link-btn" data-view="categories">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path></svg>
+            <span>Categories</span>
+          </button>
+
+          <button type="button" class="nav-link-btn" data-view="enquiries">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+            <span>Enquiries</span>
+            <span class="nav-badge-pill" id="nav-badge-enquiries" style="display:none;">0</span>
+          </button>
+
+          <button type="button" class="nav-link-btn" data-view="email">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 16 12 14 15 10 15 8 12 2 12"></polyline><path d="M5.45 5.11L2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"></path></svg>
+            <span>Email Routing</span>
+          </button>
+
+          <button type="button" class="nav-link-btn" data-view="content">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>
+            <span>Content</span>
+          </button>
+
+          <button type="button" class="nav-link-btn" data-view="settings">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+            <span>Settings</span>
+          </button>
+        </nav>
+
+        <!-- Bottom Actions -->
+        <div class="sidebar-bottom-actions">
+          <a href="../index.html" target="_blank" class="sidebar-logout-link" title="Open live website">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+            <span>Public Site</span>
+          </a>
+          <button type="button" id="sidebar-logout-btn" class="sidebar-logout-link">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
+            <span>Logout</span>
+          </button>
+        </div>
+      </aside>
+
+      <!-- ======================================================================
+           CENTER MAIN WORKSPACE
+           ====================================================================== -->
+      <main class="app-center-workspace">
+
+        <!-- Topbar: Pill Search Bar & Add New Dropdown -->
+        <header class="center-topbar">
+          <div class="workspace-search-bar">
+            <input type="search" id="admin-global-search" placeholder="Search something...">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#9aa7b5" stroke-width="2.5"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+          </div>
+
+          <div style="display:flex; align-items:center; gap:10px;">
+            <div id="supabase-status-badge" class="supabase-status-pill" title="Supabase Cloud Database Status">
+              <span class="supabase-status-dot"></span>
+              <span id="supabase-status-text">Supabase Active</span>
+            </div>
+
+            <button type="button" id="btn-toggle-side-panel" class="icon-action-btn" title="Toggle Side Panel (Enquiries & Schedule)" style="display:flex; align-items:center; gap:6px; width:auto; padding:0 14px; border-radius:var(--radius-pill); font-size:12px; font-weight:600;">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="15" y1="3" x2="15" y2="21"></line></svg>
+              <span>Side Panel</span>
+            </button>
+
+            <div class="btn-add-primary-dropdown">
+              <button type="button" id="btn-quick-new" class="btn-add-pill">
+                <span>Add New</span>
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="6 9 12 15 18 9"></polyline></svg>
+              </button>
+              <div id="quick-menu-popover" style="display:none; position:absolute; top:calc(100% + 8px); right:0; background:#fff; border-radius:var(--radius-md); box-shadow:0 10px 25px rgba(0,0,0,0.1); border:1px solid var(--border-light); width:200px; padding:6px; z-index:90;">
+                <button type="button" class="nav-link-btn" onclick="AdminApp.openAddClientModal()">+ New Client</button>
+                <button type="button" class="nav-link-btn" onclick="AdminApp.openAddProjectModal()">+ New Project</button>
+                <button type="button" class="nav-link-btn" onclick="AdminApp.openAddPortfolioModal()">+ Portfolio Video</button>
+                <button type="button" class="nav-link-btn" onclick="AdminApp.openAddCategoryModal()">+ Category</button>
+              </div>
+            </div>
+          </div>
+        </header>
+
+        <!-- ====================================================================
+             1. DASHBOARD OVERVIEW VIEW (HIREISM RECREATION)
+             ==================================================================== -->
+        <div id="view-overview" class="admin-sub-view active">
+
+          <!-- Royal Blue Welcome Banner -->
+          <div class="hero-welcome-banner">
+            <div class="hero-banner-content">
+              <h1 class="hero-banner-greeting" id="hero-greeting-heading">Good Morning Nandhu</h1>
+              <p class="hero-banner-sub">
+                You have <strong id="hero-banner-enq-count">3 new inquiries</strong> and active video deliverables today. Let's create!
+              </p>
+              <button type="button" class="btn-hero-review" onclick="AdminApp.switchView('enquiries')">
+                <span>Review Briefs</span>
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
+              </button>
+            </div>
+            <div class="hero-banner-illustration" aria-hidden="true">
+              <!-- Crisp Vector SVG Video Editor Mascot -->
+              <svg width="130" height="110" viewBox="0 0 140 120" fill="none">
+                <rect x="25" y="45" width="90" height="60" rx="8" fill="#ffffff" fill-opacity="0.95"/>
+                <rect x="35" y="55" width="70" height="40" rx="4" fill="#1e293b"/>
+                <polygon points="65,65 65,85 83,75" fill="#4361ee"/>
+                <circle cx="70" cy="28" r="16" fill="#facc15"/>
+                <path d="M50 42 C 55 35, 85 35, 90 42" stroke="#ffffff" stroke-width="3" stroke-linecap="round"/>
+                <circle cx="105" cy="25" r="7" fill="#60a5fa" fill-opacity="0.6"/>
+                <circle cx="30" cy="30" r="5" fill="#a78bfa" fill-opacity="0.6"/>
+              </svg>
+            </div>
+          </div>
+
+          <!-- Section: Category Highlights & Quick Services ("You Need to hire" in reference) -->
+          <div style="margin-top: 24px;">
+            <div class="section-headline-row">
+              <h2 class="section-headline-title">Services &amp; Formats</h2>
+              <button type="button" class="section-view-all-link" onclick="AdminApp.switchView('categories')">View All</button>
+            </div>
+
+            <div class="category-quick-cards-grid">
+              <div class="quick-category-tile" onclick="AdminApp.switchView('portfolio')">
+                <div class="cat-icon-badge blue">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="5" y="2" width="14" height="20" rx="3"></rect><line x1="12" y1="18" x2="12.01" y2="18"></line></svg>
+                </div>
+                <div class="cat-tile-title">Vertical Reels</div>
+                <div class="cat-tile-count" id="badge-count-reels">8 Projects</div>
+              </div>
+
+              <div class="quick-category-tile" onclick="AdminApp.switchView('portfolio')">
+                <div class="cat-icon-badge orange">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3z"></path><path d="M19 10v2a7 7 0 0 1-14 0v-2"></path><line x1="12" y1="19" x2="12" y2="23"></line></svg>
+                </div>
+                <div class="cat-tile-title">Podcast Edit</div>
+                <div class="cat-tile-count" id="badge-count-pod">3 Projects</div>
+              </div>
+
+              <div class="quick-category-tile" onclick="AdminApp.switchView('portfolio')">
+                <div class="cat-icon-badge red">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="2" y="7" width="20" height="15" rx="2" ry="2"></rect><polyline points="17 2 12 7 7 2"></polyline></svg>
+                </div>
+                <div class="cat-tile-title">Commercials</div>
+                <div class="cat-tile-count" id="badge-count-comm">4 Projects</div>
+              </div>
+
+              <div class="quick-category-tile" onclick="AdminApp.switchView('portfolio')">
+                <div class="cat-icon-badge green">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="7" r="4"></circle><path d="M5.5 21v-2a6.5 6.5 0 0 1 13 0v2"></path></svg>
+                </div>
+                <div class="cat-tile-title">Talking Head</div>
+                <div class="cat-tile-count" id="badge-count-talk">3 Projects</div>
+              </div>
+
+              <div class="quick-category-tile" onclick="AdminApp.switchView('portfolio')">
+                <div class="cat-icon-badge purple">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 17 12 22 22 17"></polyline><polyline points="2 12 12 17 22 12"></polyline></svg>
+                </div>
+                <div class="cat-tile-title">Motion FX</div>
+                <div class="cat-tile-count" id="badge-count-motion">4 Projects</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Section: Project Progress Table ("Recruitment Progress" in reference) -->
+          <div style="margin-top: 24px;">
+            <div class="section-headline-row">
+              <h2 class="section-headline-title">Project Progress</h2>
+              <button type="button" class="section-view-all-link" onclick="AdminApp.switchView('projects')">View All</button>
+            </div>
+
+            <div class="progress-table-card">
+              <table class="hireism-table">
+                <thead>
+                  <tr>
+                    <th>Client Name</th>
+                    <th>Project Scope</th>
+                    <th>Status</th>
+                    <th style="text-align:right;">Action</th>
+                  </tr>
+                </thead>
+                <tbody id="overview-progress-tbody">
+                  <!-- Injected dynamically with active highlight row -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- ====================================================================
+             2. CLIENTS VIEW (MINI-CRM)
+             ==================================================================== -->
+        <div id="view-clients" class="admin-sub-view">
+          <div class="sub-view-header">
+            <h2 class="sub-view-title">Clients (Mini CRM)</h2>
+            <button type="button" class="btn-add-pill" onclick="AdminApp.openAddClientModal()">+ Add Client</button>
+          </div>
+
+          <div style="margin-bottom:14px; display:flex; gap:10px;">
+            <input type="text" id="clients-search-input" class="form-input-field" placeholder="Search clients by name, brand, or email..." style="max-width:320px;">
+            <select id="clients-status-filter" class="form-select-field" style="max-width:180px;">
+              <option value="">All Statuses</option>
+              <option value="Active Client">Active Client</option>
+              <option value="Lead">Lead</option>
+              <option value="Negotiation">Negotiation</option>
+              <option value="Completed">Completed</option>
+            </select>
+          </div>
+
+          <div class="progress-table-card">
+            <table class="hireism-table">
+              <thead>
+                <tr>
+                  <th>Client ID</th>
+                  <th>Client / Brand</th>
+                  <th>Contact Email</th>
+                  <th>WhatsApp</th>
+                  <th>Type</th>
+                  <th>Status</th>
+                  <th style="text-align:right;">Actions</th>
+                </tr>
+              </thead>
+              <tbody id="clients-table-body">
+                <!-- Injected dynamically -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- ====================================================================
+             3. PROJECTS VIEW (CLIENT TRACKER)
+             ==================================================================== -->
+        <div id="view-projects" class="admin-sub-view">
+          <div class="sub-view-header">
+            <h2 class="sub-view-title">Client Projects Tracker</h2>
+            <button type="button" class="btn-add-pill" onclick="AdminApp.openAddProjectModal()">+ Create Project</button>
+          </div>
+
+          <div style="margin-bottom:14px; display:flex; gap:10px;">
+            <input type="text" id="projects-search-input" class="form-input-field" placeholder="Search project title or client..." style="max-width:320px;">
+            <select id="projects-status-filter" class="form-select-field" style="max-width:180px;">
+              <option value="">All Statuses</option>
+              <option value="In Progress">In Progress</option>
+              <option value="Review">Review</option>
+              <option value="Planning">Planning</option>
+              <option value="Completed">Completed</option>
+            </select>
+          </div>
+
+          <div class="progress-table-card">
+            <table class="hireism-table">
+              <thead>
+                <tr>
+                  <th>Project Title &amp; Client</th>
+                  <th>Format</th>
+                  <th>Budget</th>
+                  <th>Deadline</th>
+                  <th>Status</th>
+                  <th style="text-align:right;">Actions</th>
+                </tr>
+              </thead>
+              <tbody id="projects-table-body">
+                <!-- Injected dynamically -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- ====================================================================
+             4. PORTFOLIO MANAGER VIEW
+             ==================================================================== -->
+        <div id="view-portfolio" class="admin-sub-view">
+          <div class="sub-view-header">
+            <h2 class="sub-view-title">Portfolio Video Showcase</h2>
+            <div style="display:flex; gap:10px;">
+              <button type="button" class="section-view-all-link" onclick="AdminApp.downloadUpdatedPortfolioDataFile()">Export JS</button>
+              <button type="button" class="btn-add-pill" onclick="AdminApp.openAddPortfolioModal()">+ Add Video</button>
+            </div>
+          </div>
+
+          <!-- Featured 3-Reel Deck Customizer (Home Page 3D Showcase) -->
+          <div class="card-panel" style="margin-bottom:20px; background:#f8fafc; border:1px solid #e2e8f0; border-radius:14px; padding:18px 20px;">
+            <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; margin-bottom:14px;">
+              <div>
+                <h3 style="font-size:15px; font-weight:700; color:#0f172a; margin:0 0 4px 0; display:flex; align-items:center; gap:8px;">
+                  <span>★ Featured 3-Reel Showcase (Home Page 3D Pop-Out Deck)</span>
+                  <span style="font-size:11px; font-weight:700; background:#fef3c7; color:#92400e; padding:3px 10px; border-radius:9999px;">Top 3 Showcase</span>
+                </h3>
+                <p style="font-size:12.5px; color:#64748b; margin:0;">
+                  Choose exactly which 3 videos appear in the interactive 3D Fan-Out Deck on the Home Page.
+                </p>
+              </div>
+              <button type="button" class="btn-admin btn-admin-primary btn-admin-sm" onclick="AdminApp.saveFeaturedDeck()">
+                Save Featured Deck
+              </button>
+            </div>
+
+            <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(220px, 1fr)); gap:14px;" id="featured-deck-slots-grid">
+              <!-- Injected dynamically: Slot 1 (Left), Slot 2 (Center Hero), Slot 3 (Right) -->
+            </div>
+          </div>
+
+          <div style="margin-bottom:14px; display:flex; gap:10px; flex-wrap:wrap;">
+            <input type="text" id="portfolio-search-input" class="form-input-field" placeholder="Search portfolio videos..." style="max-width:280px;">
+            <select id="portfolio-ratio-filter" class="form-select-field" style="max-width:170px;">
+              <option value="">All Aspect Ratios</option>
+              <option value="9:16">9:16 Vertical Reel</option>
+              <option value="16:9">16:9 Widescreen</option>
+            </select>
+            <select id="portfolio-placement-filter" class="form-select-field" style="max-width:200px;">
+              <option value="">All Placements</option>
+              <option value="home">Home Page (Selected Works)</option>
+              <option value="works">Works Archive Page</option>
+              <option value="featured">Featured 3-Reel Deck Only</option>
+            </select>
+          </div>
+
+          <div style="display:grid; grid-template-columns:repeat(auto-fill, minmax(260px, 1fr)); gap:18px;" id="portfolio-cards-grid">
+            <!-- Injected dynamically -->
+          </div>
+        </div>
+
+        <!-- ====================================================================
+             5. CATEGORIES VIEW
+             ==================================================================== -->
+        <div id="view-categories" class="admin-sub-view">
+          <div class="sub-view-header">
+            <h2 class="sub-view-title">Portfolio Categories &amp; Share Links</h2>
+            <button type="button" class="btn-add-pill" onclick="AdminApp.openAddCategoryModal()">+ Add Category</button>
+          </div>
+
+          <div style="display:grid; grid-template-columns:repeat(auto-fill, minmax(280px, 1fr)); gap:16px;" id="categories-cards-grid">
+            <!-- Injected dynamically -->
+          </div>
+        </div>
+
+        <!-- ====================================================================
+             6. ENQUIRIES VIEW (INBOX)
+             ==================================================================== -->
+        <div id="view-enquiries" class="admin-sub-view">
+          <div class="sub-view-header">
+            <h2 class="sub-view-title">Website Enquiries Inbox</h2>
+          </div>
+
+          <div style="margin-bottom:14px; display:flex; gap:10px;">
+            <input type="text" id="enquiries-search-input" class="form-input-field" placeholder="Search enquiries..." style="max-width:320px;">
+            <select id="enquiries-status-filter" class="form-select-field" style="max-width:180px;">
+              <option value="">All Inquiries</option>
+              <option value="New">New / Unread</option>
+              <option value="Replied">Replied</option>
+              <option value="Converted to Client">Converted to Client</option>
+            </select>
+          </div>
+
+          <div class="progress-table-card">
+            <table class="hireism-table">
+              <thead>
+                <tr>
+                  <th>Received</th>
+                  <th>Inquirer</th>
+                  <th>Service Needed</th>
+                  <th>Budget</th>
+                  <th>Message</th>
+                  <th>Status</th>
+                  <th style="text-align:right;">Actions</th>
+                </tr>
+              </thead>
+              <tbody id="enquiries-table-body">
+                <!-- Injected dynamically -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- ====================================================================
+             7. EMAIL MANAGEMENT VIEW
+             ==================================================================== -->
+        <div id="view-email" class="admin-sub-view">
+          <div class="sub-view-header">
+            <h2 class="sub-view-title">Business Email Routing</h2>
+            <button type="button" class="btn-add-pill" onclick="AdminApp.openAddEmailModal()">+ Add Alias</button>
+          </div>
+
+          <div style="background:#eff2fe; border:1px solid #dbe2fb; border-radius:var(--radius-md); padding:16px; margin-bottom:18px; font-size:13px; color:#1e40af; line-height:1.45;">
+            <strong>Live Configuration:</strong> All 6 business addresses below forward directly to <strong>ndhumov@gmail.com</strong> with catch-all set to <strong>Drop</strong>.
+          </div>
+
+          <div class="progress-table-card">
+            <table class="hireism-table">
+              <thead>
+                <tr>
+                  <th>Business Alias</th>
+                  <th>Purpose</th>
+                  <th>Destination</th>
+                  <th>Status</th>
+                  <th style="text-align:right;">Actions</th>
+                </tr>
+              </thead>
+              <tbody id="emails-table-body">
+                <!-- Injected dynamically -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- ====================================================================
+             8. WEBSITE CONTENT VIEW
+             ==================================================================== -->
+        <div id="view-content" class="admin-sub-view">
+          <div class="sub-view-header">
+            <h2 class="sub-view-title">Website Content Editor</h2>
+          </div>
+
+          <form id="website-content-form" style="background:#ffffff; border:1px solid var(--border-light); border-radius:var(--radius-card); padding:24px;">
+            <div class="form-field-group">
+              <label class="form-field-label" for="content-hero-heading">Hero Heading</label>
+              <textarea id="content-hero-heading" class="form-textarea-field" rows="2" required></textarea>
+            </div>
+            <div class="form-field-group">
+              <label class="form-field-label" for="content-hero-desc">Hero Description</label>
+              <textarea id="content-hero-desc" class="form-textarea-field" rows="3" required></textarea>
+            </div>
+            <div class="grid-2col">
+              <div class="form-field-group">
+                <label class="form-field-label" for="content-profile-img">Profile Image Asset</label>
+                <input type="text" id="content-profile-img" class="form-input-field" value="assets/nandhu_profile.jpg">
+              </div>
+              <div class="form-field-group">
+                <label class="form-field-label" for="content-location">Base Location</label>
+                <input type="text" id="content-location" class="form-input-field" value="Kerala / Bangalore, India">
+              </div>
+            </div>
+            <div class="grid-2col">
+              <div class="form-field-group">
+                <label class="form-field-label" for="content-email">Primary Work Email</label>
+                <input type="email" id="content-email" class="form-input-field">
+              </div>
+              <div class="form-field-group">
+                <label class="form-field-label" for="content-whatsapp">WhatsApp (e.g. +919447746535)</label>
+                <input type="text" id="content-whatsapp" class="form-input-field">
+              </div>
+            </div>
+            <div class="grid-2col">
+              <div class="form-field-group">
+                <label class="form-field-label" for="content-phone">Phone Number</label>
+                <input type="text" id="content-phone" class="form-input-field" value="+91 94477 46535">
+              </div>
+              <div class="form-field-group">
+                <label class="form-field-label" for="content-instagram">Instagram Profile</label>
+                <input type="text" id="content-instagram" class="form-input-field" value="https://instagram.com/nandhuiie">
+              </div>
+            </div>
+            <button type="submit" class="btn-add-pill" style="margin-top:10px;">Publish Changes Live</button>
+          </form>
+        </div>
+
+        <!-- ====================================================================
+             9. SETTINGS VIEW
+             ==================================================================== -->
+        <div id="view-settings" class="admin-sub-view">
+          <div class="sub-view-header">
+            <h2 class="sub-view-title">Settings &amp; Administration</h2>
+          </div>
+
+          <div style="background:#ffffff; border:1px solid var(--border-light); border-radius:var(--radius-card); padding:24px; margin-bottom:20px;">
+            <h3 style="font-size:15px; font-weight:700; margin-bottom:14px;">Creator Profile</h3>
+            <form id="general-settings-form">
+              <div class="grid-2col">
+                <div class="form-field-group">
+                  <label class="form-field-label" for="setting-display-name">Display Name</label>
+                  <input type="text" id="setting-display-name" class="form-input-field" value="Nandhalal P S">
+                </div>
+                <div class="form-field-group">
+                  <label class="form-field-label" for="setting-title">Title</label>
+                  <input type="text" id="setting-title" class="form-input-field" value="Video Editor &amp; Content Creator">
+                </div>
+              </div>
+              <div class="grid-2col">
+                <div class="form-field-group">
+                  <label class="form-field-label" for="setting-email">Email Address</label>
+                  <input type="email" id="setting-email" class="form-input-field" value="edits@nandhuiie.tech">
+                </div>
+                <div class="form-field-group">
+                  <label class="form-field-label" for="setting-whatsapp">WhatsApp Number</label>
+                  <input type="text" id="setting-whatsapp" class="form-input-field" value="+919447746535">
+                </div>
+              </div>
+              <div class="form-field-group">
+                <label class="form-field-label" for="setting-portfolio-url">Canonical Portfolio URL</label>
+                <input type="text" id="setting-portfolio-url" class="form-input-field" value="https://nandhuiie.tech">
+              </div>
+              <button type="submit" class="btn-add-pill">Save Profile</button>
+            </form>
+          </div>
+
+          <div style="background:#ffffff; border:1px solid var(--border-light); border-radius:var(--radius-card); padding:24px; margin-bottom:20px;">
+            <h3 style="font-size:15px; font-weight:700; margin-bottom:14px;">Master Password</h3>
+            <form id="settings-password-form">
+              <div class="grid-2col">
+                <div class="form-field-group">
+                  <label class="form-field-label" for="pass-current">Current Password</label>
+                  <input type="password" id="pass-current" class="form-input-field" required>
+                </div>
+                <div class="form-field-group">
+                  <label class="form-field-label" for="pass-new">New Password</label>
+                  <input type="password" id="pass-new" class="form-input-field" minlength="6" required>
+                </div>
+              </div>
+              <div class="form-field-group">
+                <label class="form-field-label" for="pass-confirm">Confirm Password</label>
+                <input type="password" id="pass-confirm" class="form-input-field" required>
+              </div>
+              <button type="submit" class="btn-add-pill">Update Password</button>
+            </form>
+          </div>
+
+          <div style="background:#ffffff; border:1px solid var(--border-light); border-radius:var(--radius-card); padding:24px;">
+            <h3 style="font-size:15px; font-weight:700; margin-bottom:14px;">Backup &amp; Restore</h3>
+            <div style="display:flex; gap:10px;">
+              <button type="button" class="btn-hero-review" style="background:#4361ee; color:#fff;" onclick="AdminApp.exportAllData()">Export JSON Backup</button>
+              <label class="btn-hero-review" style="background:#eff2fe; color:#4361ee; cursor:pointer;">
+                Restore JSON Backup
+                <input type="file" accept=".json" onchange="AdminApp.importData(this)" style="display:none;">
+              </label>
+            </div>
+          </div>
+        </div>
+
+      </main>
+
+      <!-- ======================================================================
+           RIGHT SCHEDULE & ACTIVITY PANEL
+           ====================================================================== -->
+      <aside class="app-right-panel">
+        
+        <!-- Top Profile & Quick Icons -->
+        <div class="right-topbar">
+          <button type="button" class="icon-action-btn" onclick="AdminApp.switchView('settings')" title="Settings">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+          </button>
+          
+          <button type="button" class="icon-action-btn" onclick="AdminApp.switchView('enquiries')" title="Notifications" style="position:relative;">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
+            <span id="topbar-badge-enquiries" style="display:none; position:absolute; top:-2px; right:-2px; background:#ff4757; color:#fff; font-size:9.5px; font-weight:700; width:15px; height:15px; border-radius:var(--radius-pill); align-items:center; justify-content:center;">0</span>
+          </button>
+
+          <button type="button" id="btn-close-side-panel" class="icon-action-btn" title="Close Side Panel">✕</button>
+
+          <div class="profile-chip-wrap" onclick="AdminApp.switchView('settings')">
+            <div class="profile-chip-avatar">N</div>
+            <div class="profile-chip-info">
+              <span class="profile-chip-name">Nandhalal P S</span>
+              <span class="profile-chip-sub">Video Editor</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Schedule Calendar Widget -->
+        <div class="schedule-calendar-widget">
+          <div class="calendar-widget-header">
+            <span class="calendar-widget-title">Schedule Calendar &lt;&gt;</span>
+            <span class="calendar-month-pill" id="calendar-current-month">Nov</span>
+          </div>
+          <div class="calendar-days-strip">
+            <div class="day-cell">
+              <span class="day-name">Mon</span>
+              <span class="day-num">16</span>
+            </div>
+            <div class="day-cell active">
+              <span class="day-name">Tue</span>
+              <span class="day-num">17</span>
+            </div>
+            <div class="day-cell">
+              <span class="day-name">Wed</span>
+              <span class="day-num">18</span>
+            </div>
+            <div class="day-cell">
+              <span class="day-name">Thu</span>
+              <span class="day-num">19</span>
+            </div>
+            <div class="day-cell">
+              <span class="day-name">Fri</span>
+              <span class="day-num">20</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- New Enquiries Widget ("New Applicants" in Hireism) -->
+        <div class="inquiries-panel-section">
+          <div class="section-headline-row" style="margin-bottom:8px;">
+            <span class="calendar-widget-title">New Enquiries</span>
+            <button type="button" class="section-view-all-link" onclick="AdminApp.switchView('enquiries')">View All</button>
+          </div>
+
+          <div class="inquiries-list-items" id="right-panel-inquiries-list">
+            <!-- Dynamically populated with message and call action buttons -->
+          </div>
+        </div>
+
+        <!-- Active Deliverables ("Ready For Training" in Hireism) -->
+        <div class="inquiries-panel-section">
+          <div class="section-headline-row" style="margin-bottom:8px;">
+            <span class="calendar-widget-title">Active Projects</span>
+            <button type="button" class="section-view-all-link" onclick="AdminApp.switchView('projects')">View All</button>
+          </div>
+
+          <div class="deliverables-cards-strip" id="right-panel-deliverables-strip">
+            <!-- Dynamically populated mini cards -->
+          </div>
+        </div>
+
+      </aside>
+
+    </div>
+  </div>
+
+  <!-- ==========================================================================
+       MODALS & SLIDE-OVER DRAWER
+       ========================================================================== -->
+  <!-- Client Profile Drawer -->
+  <div id="client-profile-drawer" class="admin-modal-overlay">
+    <div class="admin-modal-card">
+      <div class="modal-header-row">
+        <h3 style="font-size:16px; font-weight:700;">Client Profile</h3>
+        <button type="button" id="btn-drawer-close" class="btn-modal-close" style="background:none; border:none; cursor:pointer; font-size:16px;">✕</button>
+      </div>
+      <div class="modal-body-content" id="drawer-profile-body"></div>
+    </div>
+  </div>
+
+  <!-- Client Modal -->
+  <div id="modal-client-form" class="admin-modal-overlay">
+    <div class="admin-modal-card">
+      <div class="modal-header-row">
+        <h3 style="font-size:16px; font-weight:700;" id="modal-client-title">Add Client</h3>
+        <button type="button" class="btn-modal-close" style="background:none; border:none; cursor:pointer; font-size:16px;">✕</button>
+      </div>
+      <form id="client-form">
+        <div class="modal-body-content">
+          <input type="hidden" id="client-form-id">
+          <div class="grid-2col">
+            <div class="form-field-group">
+              <label class="form-field-label">Name *</label>
+              <input type="text" id="client-form-name" class="form-input-field" required>
+            </div>
+            <div class="form-field-group">
+              <label class="form-field-label">Brand / Company</label>
+              <input type="text" id="client-form-company" class="form-input-field">
+            </div>
+          </div>
+          <div class="grid-2col">
+            <div class="form-field-group">
+              <label class="form-field-label">Email *</label>
+              <input type="email" id="client-form-email" class="form-input-field" required>
+            </div>
+            <div class="form-field-group">
+              <label class="form-field-label">Phone Number</label>
+              <input type="text" id="client-form-phone" class="form-input-field">
+            </div>
+          </div>
+          <div class="grid-2col">
+            <div class="form-field-group">
+              <label class="form-field-label">WhatsApp Number</label>
+              <input type="text" id="client-form-whatsapp" class="form-input-field">
+            </div>
+            <div class="form-field-group">
+              <label class="form-field-label">Instagram Handle</label>
+              <input type="text" id="client-form-instagram" class="form-input-field">
+            </div>
+          </div>
+          <div class="grid-2col">
+            <div class="form-field-group">
+              <label class="form-field-label">Client Type</label>
+              <select id="client-form-type" class="form-select-field">
+                <option value="Individual Creator">Individual Creator</option>
+                <option value="Business / Brand">Business / Brand</option>
+                <option value="Agency">Agency</option>
+              </select>
+            </div>
+            <div class="form-field-group">
+              <label class="form-field-label">Status</label>
+              <select id="client-form-status" class="form-select-field">
+                <option value="Active Client">Active Client</option>
+                <option value="Lead">Lead</option>
+                <option value="Negotiation">Negotiation</option>
+                <option value="Completed">Completed</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-field-group">
+            <label class="form-field-label">Notes</label>
+            <textarea id="client-form-notes" class="form-textarea-field"></textarea>
+          </div>
+        </div>
+        <div class="modal-footer-row">
+          <button type="button" class="btn-modal-close" style="background:#f1f4f9; border:none; padding:8px 16px; border-radius:var(--radius-pill); cursor:pointer;">Cancel</button>
+          <button type="submit" class="btn-add-pill">Save Client</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Project Modal -->
+  <div id="modal-project-form" class="admin-modal-overlay">
+    <div class="admin-modal-card">
+      <div class="modal-header-row">
+        <h3 style="font-size:16px; font-weight:700;" id="modal-project-title">Create Project</h3>
+        <button type="button" class="btn-modal-close" style="background:none; border:none; cursor:pointer; font-size:16px;">✕</button>
+      </div>
+      <form id="project-form">
+        <div class="modal-body-content">
+          <input type="hidden" id="project-form-id">
+          <div class="form-field-group">
+            <label class="form-field-label">Project Title *</label>
+            <input type="text" id="project-form-title" class="form-input-field" required>
+          </div>
+          <div class="grid-2col">
+            <div class="form-field-group">
+              <label class="form-field-label">Client *</label>
+              <select id="project-form-client" class="form-select-field" required></select>
+            </div>
+            <div class="form-field-group">
+              <label class="form-field-label">Project Type</label>
+              <select id="project-form-type" class="form-select-field">
+                <option value="Instagram Reels">Instagram Reels</option>
+                <option value="YouTube Shorts">YouTube Shorts</option>
+                <option value="Podcast Editing">Podcast Editing</option>
+                <option value="Commercial Videos">Commercial Videos</option>
+                <option value="Talking Head Videos">Talking Head Videos</option>
+                <option value="Motion Graphics">Motion Graphics</option>
+                <option value="YouTube Long-Form">YouTube Long-Form</option>
+              </select>
+            </div>
+          </div>
+          <div class="grid-2col">
+            <div class="form-field-group">
+              <label class="form-field-label">Budget</label>
+              <input type="text" id="project-form-budget" class="form-input-field" placeholder="$850">
+            </div>
+            <div class="form-field-group">
+              <label class="form-field-label">Status</label>
+              <select id="project-form-status" class="form-select-field">
+                <option value="In Progress">In Progress</option>
+                <option value="Review">Review</option>
+                <option value="Planning">Planning</option>
+                <option value="Completed">Completed</option>
+              </select>
+            </div>
+          </div>
+          <div class="grid-2col">
+            <div class="form-field-group">
+              <label class="form-field-label">Start Date</label>
+              <input type="date" id="project-form-start" class="form-input-field">
+            </div>
+            <div class="form-field-group">
+              <label class="form-field-label">Deadline</label>
+              <input type="date" id="project-form-deadline" class="form-input-field">
+            </div>
+          </div>
+          <div class="form-field-group">
+            <label class="form-field-label">Description / Scope</label>
+            <textarea id="project-form-desc" class="form-textarea-field"></textarea>
+          </div>
+          <div class="form-field-group">
+            <label class="form-field-label">Attached Links</label>
+            <input type="url" id="project-form-links" class="form-input-field" placeholder="https://drive.google.com/...">
+          </div>
+          <div class="form-field-group">
+            <label class="form-field-label">Internal Editing Notes</label>
+            <textarea id="project-form-notes" class="form-textarea-field"></textarea>
+          </div>
+        </div>
+        <div class="modal-footer-row">
+          <button type="button" class="btn-modal-close" style="background:#f1f4f9; border:none; padding:8px 16px; border-radius:var(--radius-pill); cursor:pointer;">Cancel</button>
+          <button type="submit" class="btn-add-pill">Save Project</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Portfolio Modal -->
+  <div id="modal-portfolio-form" class="admin-modal-overlay">
+    <div class="admin-modal-card">
+      <div class="modal-header-row">
+        <h3 style="font-size:16px; font-weight:700;" id="modal-portfolio-title">Add Portfolio Video</h3>
+        <button type="button" class="btn-modal-close" style="background:none; border:none; cursor:pointer; font-size:16px;">✕</button>
+      </div>
+      <form id="portfolio-form">
+        <div class="modal-body-content">
+          <input type="hidden" id="portfolio-form-id">
+          <div class="form-field-group">
+            <label class="form-field-label">Title *</label>
+            <input type="text" id="portfolio-form-title" class="form-input-field" required>
+          </div>
+          <div class="form-field-group">
+            <label class="form-field-label">Description</label>
+            <textarea id="portfolio-form-desc" class="form-textarea-field" rows="2"></textarea>
+          </div>
+          <div class="form-field-group">
+            <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:6px;">
+              <label class="form-field-label" style="margin-bottom:0;">Video Source (Link, Wistia Embed, or Upload) *</label>
+              <label class="btn-admin btn-admin-secondary btn-admin-sm" style="cursor:pointer;" title="Upload MP4 or WebM video file directly to Supabase Storage">
+                <input type="file" id="portfolio-video-upload-file" accept="video/mp4,video/webm,video/quicktime" style="display:none;">
+                <span id="video-upload-btn-text">☁ Upload to Supabase</span>
+              </label>
+            </div>
+            <textarea id="portfolio-form-video-url" class="form-textarea-field" rows="2" placeholder="Paste Video URL (MP4, YouTube, Vimeo), Wistia embed code (<wistia-player...>), or click Upload to Supabase above" required></textarea>
+            <p style="font-size:11px; color:var(--text-muted); margin-top:4px;">
+              Supports direct video links, full Wistia embed snippets (<code>&lt;wistia-player media-id="..."&gt;</code>), Wistia IDs, or direct file uploads to Supabase.
+            </p>
+          </div>
+
+          <div class="grid-2col">
+            <div class="form-field-group">
+              <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:6px;">
+                <label class="form-field-label" style="margin-bottom:0;">Poster Image *</label>
+                <label class="btn-admin btn-admin-secondary btn-admin-sm" style="cursor:pointer;" title="Upload thumbnail image to Supabase Storage">
+                  <input type="file" id="portfolio-poster-upload-file" accept="image/*" style="display:none;">
+                  <span id="poster-upload-btn-text">🖼 Upload Poster</span>
+                </label>
+              </div>
+              <input type="text" id="portfolio-form-poster" class="form-input-field" placeholder="assets/reel_1.jpg or image URL">
+            </div>
+            <div class="form-field-group">
+              <label class="form-field-label">Aspect Ratio</label>
+              <select id="portfolio-form-aspect" class="form-select-field">
+                <option value="9:16">9:16 Vertical Reel</option>
+                <option value="16:9">16:9 Widescreen</option>
+              </select>
+            </div>
+          </div>
+          <div class="grid-2col">
+            <div class="form-field-group">
+              <label class="form-field-label">Production Role</label>
+              <select id="portfolio-form-production" class="form-select-field">
+                <option value="Shot & Edited by Me">Shot & Edited by Me</option>
+                <option value="Editing Only">Editing Only</option>
+              </select>
+            </div>
+            <div class="form-field-group">
+              <label class="form-field-label">Status</label>
+              <select id="portfolio-form-status" class="form-select-field">
+                <option value="published">Published</option>
+                <option value="draft">Draft</option>
+              </select>
+            </div>
+          </div>
+          <div class="grid-2col">
+            <div class="form-field-group">
+              <label class="form-field-label">Software Used</label>
+              <input type="text" id="portfolio-form-software" class="form-input-field" value="CapCut Pro & Premiere">
+            </div>
+            <div class="form-field-group">
+              <label class="form-field-label">Duration</label>
+              <input type="text" id="portfolio-form-duration" class="form-input-field" value="00:30">
+            </div>
+          </div>
+
+          <!-- Placement & Visibility Configuration -->
+          <div style="background:#f8fafc; border:1px solid #cbd5e1; border-radius:10px; padding:12px 14px; margin-bottom:14px;">
+            <div style="font-size:12px; font-weight:700; color:#0f172a; margin-bottom:8px; display:flex; align-items:center; gap:6px;">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="3" y1="9" x2="21" y2="9"></line><line x1="9" y1="21" x2="9" y2="9"></line></svg>
+              <span>Display Placement (Where should this video appear?)</span>
+            </div>
+            
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:10px;">
+              <label class="checkbox-label" style="display:flex; align-items:center; gap:8px; font-size:12px; font-weight:600; cursor:pointer;">
+                <input type="checkbox" id="portfolio-form-show-home" checked>
+                <span>Home Page (Selected Works)</span>
+              </label>
+              <label class="checkbox-label" style="display:flex; align-items:center; gap:8px; font-size:12px; font-weight:600; cursor:pointer;">
+                <input type="checkbox" id="portfolio-form-show-works" checked>
+                <span>Works Archive (/works.html)</span>
+              </label>
+            </div>
+
+            <div class="grid-2col" style="margin-bottom:0;">
+              <div class="form-field-group" style="margin-bottom:0;">
+                <label class="form-field-label" style="font-size:11px;">Featured 3-Reel Deck Slot (Home Page)</label>
+                <select id="portfolio-form-featured-slot" class="form-select-field" style="font-size:12px;">
+                  <option value="none">Not in Featured 3-Deck</option>
+                  <option value="1">Slot 1 — Left Card (9:16)</option>
+                  <option value="2">Slot 2 — Center Hero Card (9:16)</option>
+                  <option value="3">Slot 3 — Right Card (9:16)</option>
+                </select>
+              </div>
+              <div class="form-field-group" style="margin-bottom:0;">
+                <label class="form-field-label" style="font-size:11px;">Display Priority / Sort Order</label>
+                <input type="number" id="portfolio-form-sort-order" class="form-input-field" value="1" min="1" max="999" style="font-size:12px;">
+              </div>
+            </div>
+            <div style="margin-top:8px; display:flex; align-items:center; gap:6px;">
+              <input type="checkbox" id="portfolio-form-featured">
+              <label for="portfolio-form-featured" style="font-size:11.5px; font-weight:600; color:#475569; cursor:pointer;">Mark as Featured Project (★ badge)</label>
+            </div>
+          </div>
+          <div class="form-field-group">
+            <label class="form-field-label">Categories (Multi-Select)</label>
+            <div id="portfolio-form-categories-checklist" style="display:grid; grid-template-columns:1fr 1fr; gap:6px; font-size:12px;"></div>
+          </div>
+        </div>
+        <div class="modal-footer-row">
+          <button type="button" class="btn-modal-close" style="background:#f1f4f9; border:none; padding:8px 16px; border-radius:var(--radius-pill); cursor:pointer;">Cancel</button>
+          <button type="submit" class="btn-add-pill">Save to Portfolio</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Category Modal -->
+  <div id="modal-category-form" class="admin-modal-overlay">
+    <div class="admin-modal-card">
+      <div class="modal-header-row">
+        <h3 style="font-size:16px; font-weight:700;" id="modal-cat-title">Add Category</h3>
+        <button type="button" class="btn-modal-close" style="background:none; border:none; cursor:pointer; font-size:16px;">✕</button>
+      </div>
+      <form id="category-form">
+        <div class="modal-body-content">
+          <input type="hidden" id="cat-form-id">
+          <div class="grid-2col">
+            <div class="form-field-group">
+              <label class="form-field-label">Category Name *</label>
+              <input type="text" id="cat-form-name" class="form-input-field" required>
+            </div>
+            <div class="form-field-group">
+              <label class="form-field-label">Slug *</label>
+              <input type="text" id="cat-form-slug" class="form-input-field" required>
+            </div>
+          </div>
+          <div class="form-field-group">
+            <label class="form-field-label">Hero Headline</label>
+            <input type="text" id="cat-form-headline" class="form-input-field">
+          </div>
+          <div class="form-field-group">
+            <label class="form-field-label">Short Description</label>
+            <textarea id="cat-form-desc" class="form-textarea-field"></textarea>
+          </div>
+          <div class="form-field-group">
+            <label class="form-field-label">Deliverables (comma separated)</label>
+            <input type="text" id="cat-form-deliverables" class="form-input-field">
+          </div>
+          <div class="form-field-group" style="display:flex; align-items:center; gap:8px;">
+            <input type="checkbox" id="cat-form-visible" checked>
+            <label for="cat-form-visible" style="font-size:12.5px; font-weight:600; cursor:pointer;">Enable on Website</label>
+          </div>
+        </div>
+        <div class="modal-footer-row">
+          <button type="button" class="btn-modal-close" style="background:#f1f4f9; border:none; padding:8px 16px; border-radius:var(--radius-pill); cursor:pointer;">Cancel</button>
+          <button type="submit" class="btn-add-pill">Save Category</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Email Modal -->
+  <div id="modal-email-form" class="admin-modal-overlay">
+    <div class="admin-modal-card">
+      <div class="modal-header-row">
+        <h3 style="font-size:16px; font-weight:700;">Add Email Alias</h3>
+        <button type="button" class="btn-modal-close" style="background:none; border:none; cursor:pointer; font-size:16px;">✕</button>
+      </div>
+      <form id="email-form">
+        <div class="modal-body-content">
+          <div class="form-field-group">
+            <label class="form-field-label">Alias Address *</label>
+            <input type="text" id="email-form-alias" class="form-input-field" placeholder="collab@nandhuiie.tech" required>
+          </div>
+          <div class="form-field-group">
+            <label class="form-field-label">Purpose Label *</label>
+            <input type="text" id="email-form-purpose" class="form-input-field" placeholder="Brand Collaborations" required>
+          </div>
+          <div class="form-field-group">
+            <label class="form-field-label">Forwarding Destination</label>
+            <input type="email" id="email-form-destination" class="form-input-field" value="ndhumov@gmail.com" required>
+          </div>
+        </div>
+        <div class="modal-footer-row">
+          <button type="button" class="btn-modal-close" style="background:#f1f4f9; border:none; padding:8px 16px; border-radius:var(--radius-pill); cursor:pointer;">Cancel</button>
+          <button type="submit" class="btn-add-pill">Add Alias</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Enquiry View Modal -->
+  <div id="modal-enquiry-view" class="admin-modal-overlay">
+    <div class="admin-modal-card">
+      <div class="modal-header-row">
+        <h3 style="font-size:16px; font-weight:700;">Enquiry Details</h3>
+        <button type="button" class="btn-modal-close" style="background:none; border:none; cursor:pointer; font-size:16px;">✕</button>
+      </div>
+      <div class="modal-body-content" id="modal-enquiry-body"></div>
+    </div>
+  </div>
+
+  <!-- Video Player Preview Modal in Admin -->
+  <div id="modal-video-preview" class="admin-modal-overlay">
+    <div class="admin-modal-card" style="max-width:720px; background:#0f172a; color:#ffffff;">
+      <div class="modal-header-row" style="background:#0f172a; border-color:#334155; color:#ffffff;">
+        <h3 style="font-size:16px; font-weight:700; color:#ffffff;" id="admin-preview-title">Video Preview</h3>
+        <button type="button" class="btn-modal-close" style="color:#ffffff;" onclick="AdminApp.closeVideoPreview()">✕</button>
+      </div>
+      <div class="modal-body-content" style="padding:0; background:#000000; display:flex; align-items:center; justify-content:center; min-height:380px; max-height:75vh; overflow:hidden;">
+        <div id="admin-preview-embed-wrap" style="width:100%; height:100%; display:none;"></div>
+        <video id="admin-preview-native-video" controls playsinline style="width:100%; max-height:70vh; display:block;"></video>
+      </div>
+      <div class="modal-footer-row" style="background:#0f172a; border-color:#334155; justify-content:space-between;">
+        <div id="admin-preview-meta" style="font-size:12px; color:#94a3b8;"></div>
+        <button type="button" class="btn-admin btn-admin-secondary btn-admin-sm" onclick="AdminApp.closeVideoPreview()">Close Preview</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Container -->
+  <div id="admin-toast-container" style="position:fixed; bottom:20px; right:20px; z-index:99999; display:flex; flex-direction:column; gap:8px;"></div>
+
+  <!-- Supabase CDN Client -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <!-- Core JavaScript -->
+  <script src="admin.js?v=20261118_v7"></script>
+</body>
+</html>

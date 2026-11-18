@@ -1,19 +1,20 @@
 {
   "name": "nandhu-portfolio",
   "version": "1.0.0",
-  "description": "Portfolio of Nandhulal P S — Video Editor, SMM Strategist & Motion Designer",
+  "description": "Portfolio of Nandhalal P S — Video Editor, Videographer & Content Creator",
   "main": "index.html",
   "scripts": {
     "start": "npx -y serve . -l 3000",
     "dev": "npx -y serve . -l 3000",
-    "serve": "npx -y serve . -l 3000"
+    "serve": "npx -y serve . -l 3000",
+    "build:categories": "node build_category_pages.js"
   },
   "keywords": [
     "portfolio",
     "video-editor",
-    "creative",
-    "cinematography"
+    "videographer",
+    "content-creator"
   ],
-  "author": "Nandhulal P S",
+  "author": "Nandhalal P S",
   "license": "ISC"
 }
