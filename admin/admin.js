@@ -814,7 +814,6 @@
      ========================================================================== */
   const Auth = {
     currentUser: null,
-    isRegisterMode: false,
 
     async checkSession() {
       // 1. Check active Supabase Cloud Auth session
@@ -966,18 +965,6 @@
       }
     },
 
-    async registerSupabaseUser(email, password) {
-      if (!sb || !sb.auth) {
-        throw new Error('Supabase client is not available.');
-      }
-      const { data, error } = await sb.auth.signUp({
-        email: email.trim(),
-        password: password.trim()
-      });
-      if (error) throw error;
-      return data;
-    },
-
     async logout(msg) {
       if (sb && sb.auth) {
         try {
@@ -1122,31 +1109,6 @@
       const form = document.getElementById('admin-login-form');
       if (!form) return;
 
-      const toggleModeBtn = document.getElementById('auth-toggle-mode-btn');
-      const submitText = document.getElementById('auth-submit-text');
-      const userLabel = document.getElementById('auth-user-label');
-      const userInput = document.getElementById('auth-user-input');
-
-      if (toggleModeBtn) {
-        toggleModeBtn.addEventListener('click', () => {
-          Auth.isRegisterMode = !Auth.isRegisterMode;
-          if (Auth.isRegisterMode) {
-            if (submitText) submitText.textContent = 'Create Supabase Admin Account';
-            if (userLabel) userLabel.textContent = 'Supabase Email *';
-            if (userInput) {
-              userInput.placeholder = 'you@example.com';
-              if (!userInput.value.includes('@')) userInput.value = '';
-            }
-            toggleModeBtn.textContent = '← Already have an account? Sign in here';
-          } else {
-            if (submitText) submitText.textContent = 'Sign In with Supabase';
-            if (userLabel) userLabel.textContent = 'Email or Username';
-            if (userInput) userInput.placeholder = 'Supabase Email or nandhu';
-            toggleModeBtn.textContent = 'Create a new Supabase Admin account?';
-          }
-        });
-      }
-
       form.addEventListener('submit', async (e) => {
         e.preventDefault();
         const user = document.getElementById('auth-user-input').value.trim();
@@ -1155,23 +1117,7 @@
         if (submitBtn) submitBtn.disabled = true;
 
         try {
-          if (Auth.isRegisterMode) {
-            if (!user.includes('@')) {
-              Auth.showLogin('Please enter a valid email address for Supabase registration.');
-              return;
-            }
-            if (pass.length < 6) {
-              Auth.showLogin('Password must be at least 6 characters long.');
-              return;
-            }
-            await Auth.registerSupabaseUser(user, pass);
-            Auth.showLogin('Account created in Supabase Auth! Please sign in with your credentials.', 'success');
-            Auth.isRegisterMode = false;
-            if (submitText) submitText.textContent = 'Sign In with Supabase';
-            if (toggleModeBtn) toggleModeBtn.textContent = 'Create a new Supabase Admin account?';
-          } else {
-            await Auth.login(user, pass);
-          }
+          await Auth.login(user, pass);
         } catch (err) {
           Auth.showLogin(err.message || 'Authentication error.');
         } finally {

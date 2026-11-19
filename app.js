@@ -8,6 +8,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initContactForm();
   initModalClose();
   initProcessScrollSpy();
+  initDynamicHomeWorks();
   initVideoFilters();
   initDynamicRoleTyping();
   initReelPopout();
@@ -44,11 +45,264 @@ function initMobileNav() {
   });
 }
 
+// Dynamic Home Page Selected Works Synchronizer
+// Renders and replaces home page videos dynamically from LocalStorage (Admin) & Supabase Database
+function initDynamicHomeWorks() {
+  const vertGrid = document.getElementById('vertical-works-grid');
+  const horizGrid = document.getElementById('horizontal-works-grid');
+  if (!vertGrid && !horizGrid) return; // Exit if not on home page
+
+  function escapeHtml(str) {
+    if (!str) return '';
+    return String(str)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#039;');
+  }
+
+  function getCleanCats(rawCats) {
+    if (!Array.isArray(rawCats)) {
+      if (typeof rawCats === 'string') rawCats = rawCats.split(/[\s,]+/);
+      else rawCats = [];
+    }
+    return rawCats
+      .filter(c => Boolean(c) && !['hide-home', 'hide-works', 'featured-slot-1', 'featured-slot-2', 'featured-slot-3'].includes(c))
+      .map(c => c.toLowerCase().trim().replace(/\s+/g, '-'));
+  }
+
+  function renderCard(p, isVertical) {
+    const cleanCats = getCleanCats(p.categories);
+    const catAttr = cleanCats.join(' ');
+
+    let primaryCat = 'Selected Work';
+    if (cleanCats.length > 0) {
+      primaryCat = cleanCats[0].replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
+    } else if (p.category) {
+      primaryCat = p.category;
+    }
+
+    const isShotAndEdited = (p.productionType || '').toLowerCase().includes('shot');
+    const badgeClass = isShotAndEdited ? 'shot-edited' : 'editing-only';
+    const badgeLabel = p.productionType || (isShotAndEdited ? 'Shot & Edited by Me' : 'Editing Only');
+    const softwareLabel = Array.isArray(p.software) ? p.software.join(', ') : (p.software || (isVertical ? 'CapCut Desktop' : 'Adobe Premiere Pro'));
+    const durationLabel = p.duration || '00:30';
+    const posterUrl = p.thumbnail || p.poster || (isVertical ? 'assets/reel_1.jpg' : 'assets/work3.jpg');
+    const rawVideoUrl = (p.videoUrl || p.video_url || '').trim();
+
+    const isDirectVideo = rawVideoUrl && !rawVideoUrl.includes('<') && (
+      rawVideoUrl.endsWith('.mp4') || rawVideoUrl.includes('.mp4') || rawVideoUrl.includes('supabase.co') || rawVideoUrl.endsWith('.webm')
+    );
+
+    const mediaClass = isVertical ? 'grid-reel-video' : 'grid-horizontal-video';
+    let mediaHtml = '';
+
+    if (isDirectVideo) {
+      mediaHtml = `<video class="${mediaClass}" src="${escapeHtml(rawVideoUrl)}" poster="${escapeHtml(posterUrl)}" muted playsinline loop preload="metadata"></video>`;
+    } else {
+      mediaHtml = `<img class="${mediaClass}" src="${escapeHtml(posterUrl)}" alt="${escapeHtml(p.title)}" loading="lazy" style="width:100%;height:100%;object-fit:cover;">`;
+    }
+
+    if (isVertical) {
+      return `
+        <article class="work-card-reel" data-project-id="${escapeHtml(p.id)}"
+          data-categories="${escapeHtml(catAttr)}" tabindex="0"
+          role="button" aria-label="Play ${escapeHtml(p.title)}" onclick="openVideoPlayer('${escapeHtml(p.id)}')">
+          <div class="work-reel-media">
+            ${mediaHtml}
+            <div class="card-play-hover" aria-hidden="true">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                <polygon points="5 3 19 12 5 21 5 3"></polygon>
+              </svg>
+            </div>
+          </div>
+          <div class="work-reel-info">
+            <div class="work-card-meta-row">
+              <span class="work-reel-tag">${escapeHtml(primaryCat)}</span>
+              <span class="prod-type-badge ${badgeClass}">${escapeHtml(badgeLabel)}</span>
+            </div>
+            <h3 class="work-reel-title" style="margin-top: 6px;">${escapeHtml(p.title)}</h3>
+            <p class="work-card-desc-snippet">${escapeHtml(p.description || '')}</p>
+            <div class="work-card-meta-row" style="margin-top: 10px;">
+              <span class="work-card-software-tag">${escapeHtml(softwareLabel)}</span>
+              <span class="work-card-duration-tag">${escapeHtml(durationLabel)}</span>
+            </div>
+          </div>
+        </article>
+      `;
+    } else {
+      return `
+        <article class="work-card-horizontal" data-project-id="${escapeHtml(p.id)}"
+          data-categories="${escapeHtml(catAttr)}" tabindex="0" role="button"
+          aria-label="Play ${escapeHtml(p.title)}" onclick="openVideoPlayer('${escapeHtml(p.id)}')">
+          <div class="work-horizontal-media">
+            ${mediaHtml}
+            <div class="card-play-hover" aria-hidden="true">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                <polygon points="5 3 19 12 5 21 5 3"></polygon>
+              </svg>
+            </div>
+          </div>
+          <div class="work-horizontal-info">
+            <div class="work-horizontal-header">
+              <span class="work-horizontal-tag">${escapeHtml(primaryCat)}</span>
+              <span class="prod-type-badge ${badgeClass}">${escapeHtml(badgeLabel)}</span>
+            </div>
+            <h4 class="work-horizontal-title">${escapeHtml(p.title)}</h4>
+            <p class="work-horizontal-desc">${escapeHtml(p.description || '')}</p>
+            <div class="work-horizontal-footer">
+              <span class="work-card-software-tag">${escapeHtml(softwareLabel)}</span>
+              <span class="work-card-duration-tag">${escapeHtml(durationLabel)}</span>
+            </div>
+          </div>
+        </article>
+      `;
+    }
+  }
+
+  function renderProjectsToHome(list) {
+    if (!Array.isArray(list) || !list.length) return;
+
+    // 1. Register projects into videoProjectsData for player
+    list.forEach(p => {
+      if (p.id) {
+        videoProjectsData[p.id] = {
+          title: p.title,
+          desc: p.description,
+          videoUrl: p.videoUrl || p.video_url,
+          poster: p.thumbnail || p.poster,
+          isVertical: p.aspectRatio === '9:16' || p.isVertical === true || p.is_vertical === true,
+          specs: p.specs || [p.aspectRatio || '9:16', p.duration || '00:30', p.productionType || 'Shot & Edited by Me'],
+          breakdown: p.breakdown || []
+        };
+      }
+    });
+
+    // 2. Filter projects to display on home (exclude drafts and showOnHome === false)
+    const homeList = list.filter(p => p.showOnHome !== false && p.visible !== false && p.status !== 'draft');
+
+    // 3. Separate into vertical (9:16) and horizontal (16:9)
+    const verticals = homeList.filter(p => p.aspectRatio === '9:16' || p.isVertical === true || p.is_vertical === true);
+    const horizontals = homeList.filter(p => !(p.aspectRatio === '9:16' || p.isVertical === true || p.is_vertical === true));
+
+    // 4. Update DOM containers
+    if (vertGrid && verticals.length > 0) {
+      vertGrid.innerHTML = verticals.map(p => renderCard(p, true)).join('');
+    }
+
+    if (horizGrid && horizontals.length > 0) {
+      horizGrid.innerHTML = horizontals.map(p => renderCard(p, false)).join('');
+    }
+
+    // 5. Update category pill counts
+    const allPills = document.querySelectorAll('.category-pill-btn');
+    if (allPills.length > 0) {
+      allPills.forEach(pill => {
+        const cat = pill.getAttribute('data-category');
+        const countSpan = pill.querySelector('.category-pill-count');
+        if (countSpan) {
+          if (cat === 'all') {
+            countSpan.textContent = homeList.length;
+          } else {
+            const count = homeList.filter(p => {
+              const cats = getCleanCats(p.categories);
+              return cats.includes(cat);
+            }).length;
+            countSpan.textContent = count;
+          }
+        }
+      });
+    }
+
+    // 6. Refresh category filters and autoplay observers
+    if (typeof window.refreshVideoFilters === 'function') {
+      window.refreshVideoFilters();
+    }
+    if (typeof initAutoPlayVisibleVideos === 'function') {
+      initAutoPlayVisibleVideos();
+    }
+  }
+
+  // Initial immediate synchronous render from localStorage or default PORTFOLIO_DATA
+  let initialList = [];
+  try {
+    const raw = localStorage.getItem('nandhu_admin_portfolio');
+    if (raw) initialList = JSON.parse(raw);
+  } catch (e) {}
+
+  if ((!initialList || !initialList.length) && window.PORTFOLIO_DATA && Array.isArray(window.PORTFOLIO_DATA.projects)) {
+    initialList = window.PORTFOLIO_DATA.projects;
+  }
+
+  if (initialList && initialList.length > 0) {
+    renderProjectsToHome(initialList);
+  }
+
+  // Background Cloud Sync from Supabase
+  fetch('https://npswzpmqdsxvqkndtvav.supabase.co/rest/v1/portfolio_projects?select=*&status=eq.published&order=sort_order.asc', {
+    headers: {
+      'apikey': 'sb_publishable_LbI_vgi8e9baElyLznZjXA_1nCBK0XL',
+      'Authorization': 'Bearer sb_publishable_LbI_vgi8e9baElyLznZjXA_1nCBK0XL'
+    }
+  })
+  .then(res => res.ok ? res.json() : [])
+  .then(data => {
+    if (Array.isArray(data) && data.length > 0) {
+      const mapped = data.map(r => {
+        const rawCats = Array.isArray(r.categories) ? r.categories : [];
+        const showOnHome = !rawCats.includes('hide-home');
+        const showOnWorks = !rawCats.includes('hide-works');
+        let featuredSlot = 'none';
+        if (rawCats.includes('featured-slot-1')) featuredSlot = '1';
+        else if (rawCats.includes('featured-slot-2')) featuredSlot = '2';
+        else if (rawCats.includes('featured-slot-3')) featuredSlot = '3';
+        const cleanCats = rawCats.filter(c => !['hide-home', 'hide-works', 'featured-slot-1', 'featured-slot-2', 'featured-slot-3'].includes(c));
+
+        return {
+          id: r.id,
+          title: r.title,
+          description: r.description || '',
+          thumbnail: r.poster || '',
+          poster: r.poster || '',
+          videoUrl: r.video_url || '',
+          aspectRatio: r.aspect_ratio || (r.is_vertical ? '9:16' : '16:9'),
+          isVertical: Boolean(r.is_vertical || r.aspect_ratio === '9:16'),
+          categories: cleanCats,
+          productionType: r.production_type || 'Shot & Edited by Me',
+          software: r.software ? (typeof r.software === 'string' ? r.software.split(',').map(s => s.trim()) : r.software) : ['CapCut Desktop'],
+          duration: r.duration || '00:30',
+          featured: Boolean(r.featured) || featuredSlot !== 'none',
+          featuredSlot: featuredSlot,
+          showOnHome: showOnHome,
+          showOnWorks: showOnWorks,
+          sortOrder: r.sort_order || 0
+        };
+      });
+
+      localStorage.setItem('nandhu_admin_portfolio', JSON.stringify(mapped));
+      renderProjectsToHome(mapped);
+    }
+  })
+  .catch(e => console.warn('Supabase home sync error:', e));
+
+  // Real-time cross-tab synchronization:
+  // When user edits/saves in Admin tab, Home tab updates instantly!
+  window.addEventListener('storage', (e) => {
+    if (e.key === 'nandhu_admin_portfolio' && e.newValue) {
+      try {
+        const updated = JSON.parse(e.newValue);
+        if (Array.isArray(updated)) {
+          renderProjectsToHome(updated);
+        }
+      } catch (err) {}
+    }
+  });
+}
+
 // Smart Project Category Filtering System
 function initVideoFilters() {
   const filterBtns = document.querySelectorAll('.category-pill-btn');
-  const reelCards = document.querySelectorAll('.work-card-reel[data-categories]');
-  const horizCards = document.querySelectorAll('.work-card-horizontal[data-categories]');
   const statusBar = document.getElementById('category-status-bar');
   const statusName = document.getElementById('category-status-name');
   const directLink = document.getElementById('category-direct-page-link');
@@ -58,8 +312,15 @@ function initVideoFilters() {
 
   if (!filterBtns.length) return;
 
+  let currentCategory = 'all';
+
   function applyCategory(catSlug, updateUrl = true) {
     const slug = (catSlug || 'all').toLowerCase().trim();
+    currentCategory = slug;
+
+    // Dynamically query current cards in DOM so newly rendered/replaced videos are captured
+    const reelCards = document.querySelectorAll('.work-card-reel');
+    const horizCards = document.querySelectorAll('.work-card-horizontal');
 
     // 1. Update Active Pill
     let activeBtn = null;
@@ -142,6 +403,10 @@ function initVideoFilters() {
       history.replaceState(null, '', newHash);
     }
   }
+
+  window.refreshVideoFilters = function() {
+    applyCategory(currentCategory, false);
+  };
 
   // Bind click handlers to filter pills
   filterBtns.forEach(btn => {
